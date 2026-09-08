@@ -163,6 +163,7 @@ src/
     ├── catalogo/
     ├── orcamentacao/
     ├── relatorios/
+    ├── clientes/
     └── shared/
 ```
 
@@ -176,6 +177,7 @@ Os módulos serão organizados por **domínio de negócio**, e não por camada t
 | `catalogo/`     | SINAPI, composições, insumos, versões e ingestão.   |
 | `orcamentacao/` | Projetos, clientes, orçamentos, EAP e cálculos.     |
 | `relatorios/`   | PDF, Excel e Curva ABC.                             |
+| `clientes/`     | Criação de clientes.                                |
 | `shared/`       | Componentes realmente compartilhados entre módulos. |
 
 #### Regra de Dependência entre Módulos

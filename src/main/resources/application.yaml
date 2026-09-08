@@ -1,3 +1,18 @@
 spring:
   application:
     name: buildprice
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/buildprice-db
+    username: admin
+    password: pass
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: "b3JjYW1lbnRvLWJ1aWxkcHJpY2Utc2VjcmV0LWtleS1tdXJvLXNlZ3Vyby1wYXJhLWp3dA=="
+  access-token-expiration: 900000     # 15 minutos
+  refresh-token-expiration: 604800000 # 7 dias

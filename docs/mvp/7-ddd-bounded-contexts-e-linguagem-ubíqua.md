@@ -151,6 +151,24 @@ Preco Final = Custo Total × (1 + BDI / 100)
 
 ---
 
+## Contexto: Clientes
+
+### Agregado raiz:
+
+**Cliente.**
+
+### Entidades internas:
+
+* `nenhuma (agregado simples, sem sub-entidades)`
+
+### Invariantes:
+
+* um Cliente pertence a exatamente um Usuario (isolamento entre contas); Orcamentacao referencia Cliente apenas por cliente_id, nunca acessando a entidade diretamente
+
+### Linguagem Ubíqua:
+
+* `Cliente`
+
 ## Contexto: Relatórios
 
 ### Agregado Raiz
@@ -180,6 +198,7 @@ O contexto de Relatórios é um contexto predominantemente de **leitura e geraç
 | **Identidade**   | `Usuario`            | Usuários, autenticação, sessões e papéis.                       |
 | **Catálogo**     | `TabelaSinapiVersao` | Dados SINAPI, versões, composições, insumos e importação.       |
 | **Orçamentação** | `Orcamento`          | Projetos, orçamentos, EAP, itens, cálculos e regras de negócio. |
+| **clientes**     | `clientes`           | CRUD de clientes                                                |
 | **Relatórios**   | Nenhum               | Leitura, geração de Curva ABC e exportação de PDF/Excel/CSV.    |
 
 ### Diretriz Arquitetural

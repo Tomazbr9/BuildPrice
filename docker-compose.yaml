@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: buildprice-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: buildprice-db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
