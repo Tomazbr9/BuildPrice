@@ -1,10 +1,12 @@
 package com.tomazbr9.buildprice.identity.infrastructure.security;
 
 import com.tomazbr9.buildprice.identity.application.port.out.RefreshTokenGenerator;
+import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.Base64;
 
+@Component
 public class SecureRefreshTokenGenerator implements RefreshTokenGenerator {
 
     private static final int TOKEN_SIZE_BYTS = 32;

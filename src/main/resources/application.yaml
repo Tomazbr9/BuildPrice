@@ -9,7 +9,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
 
 security:
@@ -20,3 +20,8 @@ jwt:
   secret: "b3JjYW1lbnRvLWJ1aWxkcHJpY2Utc2VjcmV0LWtleS1tdXJvLXNlZ3Vyby1wYXJhLWp3dA=="
   access-token-expiration: 900000     # 15 minutos
   refresh-token-expiration: 604800000 # 7 dias
+
+flyway:
+  enabled: true
+  baseline-on-migrate: true
+

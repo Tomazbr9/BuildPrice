@@ -1,10 +1,14 @@
 package com.tomazbr9.buildprice.identity.presentation.controllers;
 
 import com.tomazbr9.buildprice.identity.application.command.AuthenticateUserCommand;
+import com.tomazbr9.buildprice.identity.application.command.RefreshTokenCommand;
 import com.tomazbr9.buildprice.identity.application.dto.TokenResult;
 import com.tomazbr9.buildprice.identity.application.port.in.AuthenticateUserUseCase;
+import com.tomazbr9.buildprice.identity.application.port.in.RefreshTokenUseCase;
 import com.tomazbr9.buildprice.identity.presentation.request.LoginRequest;
+import com.tomazbr9.buildprice.identity.presentation.request.RefreshTokenRequest;
 import com.tomazbr9.buildprice.identity.presentation.response.LoginResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticateUserUseCase authenticateUserUseCase;
+    private final RefreshTokenUseCase refreshTokenUseCase;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest request){
@@ -35,6 +40,16 @@ public class AuthController {
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenResult> refresh(@Valid @RequestBody RefreshTokenRequest request){
+
+        RefreshTokenCommand command = new RefreshTokenCommand(request.refreshToken());
+
+        TokenResult result = refreshTokenUseCase.execute(command);
+
+        return ResponseEntity.ok(result);
     }
 
 }

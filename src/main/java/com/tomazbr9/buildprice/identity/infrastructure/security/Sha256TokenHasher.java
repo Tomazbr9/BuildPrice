@@ -1,12 +1,14 @@
 package com.tomazbr9.buildprice.identity.infrastructure.security;
 
 import com.tomazbr9.buildprice.identity.application.port.out.TokenHasher;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
+@Component
 public class Sha256TokenHasher implements TokenHasher {
     @Override
     public String hash(String token) {
