@@ -1,9 +1,11 @@
 package com.tomazbr9.buildprice.identity.presentation.controllers;
 
 import com.tomazbr9.buildprice.identity.application.command.AuthenticateUserCommand;
+import com.tomazbr9.buildprice.identity.application.command.LogoutCommand;
 import com.tomazbr9.buildprice.identity.application.command.RefreshTokenCommand;
 import com.tomazbr9.buildprice.identity.application.dto.TokenResult;
 import com.tomazbr9.buildprice.identity.application.port.in.AuthenticateUserUseCase;
+import com.tomazbr9.buildprice.identity.application.port.in.LogoutUseCase;
 import com.tomazbr9.buildprice.identity.application.port.in.RefreshTokenUseCase;
 import com.tomazbr9.buildprice.identity.presentation.request.LoginRequest;
 import com.tomazbr9.buildprice.identity.presentation.request.RefreshTokenRequest;
@@ -23,6 +25,7 @@ public class AuthController {
 
     private final AuthenticateUserUseCase authenticateUserUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
+    private final LogoutUseCase logoutUseCase;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest request){
@@ -50,6 +53,17 @@ public class AuthController {
         TokenResult result = refreshTokenUseCase.execute(command);
 
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@Valid @RequestBody RefreshTokenRequest request){
+
+        LogoutCommand command = new LogoutCommand(request.refreshToken());
+
+        logoutUseCase.execute(command);
+
+        return ResponseEntity.noContent().build();
+
     }
 
 }
