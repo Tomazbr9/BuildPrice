@@ -8,8 +8,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -20,11 +22,18 @@ public class UserJpaRepositoryAdapter implements UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<UserEntity> findByEmail(String email) {
         return userJpaRepository.findByEmail(email).map(UserMapper::toEntity);
     }
 
+    @Override
+    public Optional<UserEntity> findById(UUID id) {
+        return userJpaRepository.findById(id).map(UserMapper::toEntity);
+    }
+
+    @Transactional
     @Override
     public UserEntity save(UserEntity usuario) {
 

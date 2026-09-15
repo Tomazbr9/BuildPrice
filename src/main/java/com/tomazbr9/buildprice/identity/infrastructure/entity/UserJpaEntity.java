@@ -19,15 +19,15 @@ public class UserJpaEntity {
     private UUID id;
 
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String senhaHash;
+    @Column(nullable = false, name = "password_hash")
+    private String passwordHash;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private UserRole papel;
+    private UserRole role;
 }

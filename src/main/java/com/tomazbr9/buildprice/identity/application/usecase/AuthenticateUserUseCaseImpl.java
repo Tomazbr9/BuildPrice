@@ -4,22 +4,37 @@ import com.tomazbr9.buildprice.identity.application.command.AuthenticateUserComm
 import com.tomazbr9.buildprice.identity.application.dto.TokenResult;
 import com.tomazbr9.buildprice.identity.application.dto.AuthenticatedUser;
 import com.tomazbr9.buildprice.identity.application.port.in.AuthenticateUserUseCase;
-import com.tomazbr9.buildprice.identity.application.port.out.UserAuthentication;
-import com.tomazbr9.buildprice.identity.application.port.out.TokenProvider;
+import com.tomazbr9.buildprice.identity.application.port.out.*;
+import com.tomazbr9.buildprice.identity.domain.entity.RefreshTokenEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
 
     private final UserAuthentication userAuthentication;
-    private final TokenProvider tokenService;
+    private final TokenProvider tokenProvider;
+
+    private final RefreshTokenGenerator refreshTokenGenerator;
+    private final TokenHasher tokenHasher;
+    private final RefreshTokenExpirationProvider refreshTokenExpirationProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public AuthenticateUserUseCaseImpl(
             UserAuthentication userAuthentication,
-            TokenProvider tokenService
+            TokenProvider tokenprovider,
+            RefreshTokenGenerator refreshTokenGenerator,
+            TokenHasher tokenHasher,
+            RefreshTokenExpirationProvider refreshTokenExpirationProvider,
+            RefreshTokenRepository refreshTokenRepository
     ) {
         this.userAuthentication = userAuthentication;
-        this.tokenService = tokenService;
+        this.tokenProvider = tokenprovider;
+        this.refreshTokenGenerator = refreshTokenGenerator;
+        this.tokenHasher = tokenHasher;
+        this.refreshTokenExpirationProvider = refreshTokenExpirationProvider;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
@@ -29,15 +44,22 @@ public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
                 userAuthentication.authenticate(command.email(), command.password());
 
         String accessToken =
-                tokenService.generateAccessToken(
+                tokenProvider.generateAccessToken(
                         user.email(),
                         user.role()
                 );
 
-        String refreshToken =
-                tokenService.generateRefreshToken(
-                        user.email()
-                );
+        String refreshToken = refreshTokenGenerator.generate();
+        String refreshTokenHash = tokenHasher.hash(refreshToken);
+        LocalDateTime expiresAt = refreshTokenExpirationProvider.expiresAt();
+
+        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.create(
+                user.id(),
+                refreshTokenHash,
+                expiresAt
+        );
+
+        refreshTokenRepository.save(refreshTokenEntity);
 
         return new TokenResult(
                 accessToken,

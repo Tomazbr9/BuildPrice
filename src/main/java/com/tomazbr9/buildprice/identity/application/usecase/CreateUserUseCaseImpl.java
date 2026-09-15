@@ -35,18 +35,18 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
             );
         }
 
-        String senhaHash =
+        String passwordHash =
                 passwordHasher.hash(command.password());
 
-        UserEntity usuario = UserEntity.create(
+        UserEntity user = UserEntity.create(
                 command.name(),
                 command.email(),
-                senhaHash
+                passwordHash
         );
 
-        UserEntity usuarioSalvo = userRepository.save(usuario);
+        UserEntity savedUser = userRepository.save(user);
 
-        return usuarioSalvo.getId();
+        return savedUser.getId();
 
     }
 }

@@ -5,23 +5,27 @@ import com.tomazbr9.buildprice.identity.infrastructure.entity.UserJpaEntity;
 
 public class UserMapper {
 
+    private UserMapper(){
+
+    }
+
     public static UserJpaEntity toJpaEntity(UserEntity user) {
         return UserJpaEntity.builder()
                 .id(user.getId())
-                .nome(user.getName())
+                .name(user.getName())
                 .email(user.getEmail())
-                .senhaHash(user.getPasswordHash())
-                .papel(user.getRole())
+                .passwordHash(user.getPasswordHash())
+                .role(user.getRole())
                 .build();
     }
 
     public static UserEntity toEntity(UserJpaEntity user) {
         return UserEntity.restore(
                 user.getId(),
-                user.getNome(),
+                user.getName(),
                 user.getEmail(),
-                user.getSenhaHash(),
-                user.getPapel()
+                user.getPasswordHash(),
+                user.getRole()
         );
     }
 }

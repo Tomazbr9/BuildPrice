@@ -23,7 +23,7 @@ public class UserEntity {
         usuario.name = name;
         usuario.email = email;
         usuario.passwordHash = passwordHash;
-        usuario.role = UserRole.USUARIO;
+        usuario.role = UserRole.USER;
 
         return usuario;
 

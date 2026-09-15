@@ -37,6 +37,7 @@ public class SpringUserAuthentication
                 (UserDetailsImpl) authentication.getPrincipal();
 
         return new AuthenticatedUser(
+                userDetailsImpl.getId(),
                 userDetailsImpl.getUsername(),
                 userDetailsImpl.getRole()
         );
