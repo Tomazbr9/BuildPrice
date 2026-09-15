@@ -1,6 +1,7 @@
 package com.tomazbr9.buildprice.identity.application.usecase;
 
 import com.tomazbr9.buildprice.identity.application.command.LogoutCommand;
+import com.tomazbr9.buildprice.identity.application.exception.InvalidRefreshTokenException;
 import com.tomazbr9.buildprice.identity.application.port.in.LogoutUseCase;
 import com.tomazbr9.buildprice.identity.application.port.out.RefreshTokenRepository;
 import com.tomazbr9.buildprice.identity.application.port.out.TokenHasher;
@@ -27,7 +28,7 @@ public class LogoutUseCaseImpl implements LogoutUseCase {
         String refreshToken = tokenHasher.hash(command.refreshToken());
 
         RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByTokenHash(refreshToken)
-                .orElseThrow(() -> new IllegalArgumentException("Refresh Token não encontrado"));
+                .orElseThrow(InvalidRefreshTokenException::new);
 
         refreshTokenEntity.revoke();
 

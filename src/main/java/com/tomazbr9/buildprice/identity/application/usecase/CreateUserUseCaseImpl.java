@@ -1,6 +1,7 @@
 package com.tomazbr9.buildprice.identity.application.usecase;
 
 import com.tomazbr9.buildprice.identity.application.command.CreateUserCommand;
+import com.tomazbr9.buildprice.identity.application.exception.EmailAlreadyRegisteredException;
 import com.tomazbr9.buildprice.identity.application.port.in.CreateUserUseCase;
 import com.tomazbr9.buildprice.identity.application.port.out.PasswordHasher;
 import com.tomazbr9.buildprice.identity.application.port.out.UserRepository;
@@ -30,9 +31,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                 .findByEmail(command.email())
                 .isPresent()) {
 
-            throw new IllegalArgumentException(
-                    "E-mail já cadastrado"
-            );
+            throw new EmailAlreadyRegisteredException();
         }
 
         String passwordHash =

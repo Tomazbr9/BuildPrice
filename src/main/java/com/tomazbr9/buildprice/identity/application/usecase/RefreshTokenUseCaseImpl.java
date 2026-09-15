@@ -2,6 +2,10 @@ package com.tomazbr9.buildprice.identity.application.usecase;
 
 import com.tomazbr9.buildprice.identity.application.command.RefreshTokenCommand;
 import com.tomazbr9.buildprice.identity.application.dto.TokenResult;
+import com.tomazbr9.buildprice.identity.application.exception.ExpiredRefreshTokenException;
+import com.tomazbr9.buildprice.identity.application.exception.InvalidRefreshTokenException;
+import com.tomazbr9.buildprice.identity.application.exception.RevokedRefreshTokenException;
+import com.tomazbr9.buildprice.identity.application.exception.UserNotFoundException;
 import com.tomazbr9.buildprice.identity.application.port.in.RefreshTokenUseCase;
 import com.tomazbr9.buildprice.identity.application.port.out.*;
 import com.tomazbr9.buildprice.identity.domain.entity.RefreshTokenEntity;
@@ -42,18 +46,18 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
         String tokenHash = tokenHasher.hash(command.refreshToken());
 
         RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByTokenHash(tokenHash)
-                .orElseThrow(() -> new IllegalArgumentException("Refresh Token inválido"));
+                .orElseThrow(InvalidRefreshTokenException::new);
 
         if(refreshTokenEntity.isRevoked()){
-            throw new IllegalArgumentException("Refresh Token revogado");
+            throw new RevokedRefreshTokenException();
         }
 
         if(refreshTokenEntity.isExpired(LocalDateTime.now())){
-            throw new IllegalArgumentException("Refresh Token expirado");
+            throw new ExpiredRefreshTokenException();
         }
 
         UserEntity user = userRepository.findById(refreshTokenEntity.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+                .orElseThrow(UserNotFoundException::new);
 
         String accessToken = tokenProvider.generateAccessToken(
                 user.getEmail(),
