@@ -5,6 +5,7 @@ import com.tomazbr9.buildprice.shared.exception.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -70,6 +71,18 @@ public class IdentityExceptionHandler {
         return buildResponse(
                 HttpStatus.NOT_FOUND,
                 exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError> handleBadCredentials(
+            BadCredentialsException exception,
+            HttpServletRequest request
+    ){
+        return buildResponse(
+                HttpStatus.UNAUTHORIZED,
+                "E-mail ou senha inválidos",
                 request.getRequestURI()
         );
     }
