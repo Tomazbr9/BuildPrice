@@ -12,6 +12,7 @@ import com.tomazbr9.buildprice.identity.application.port.out.*;
 import com.tomazbr9.buildprice.identity.domain.entity.RefreshTokenEntity;
 import com.tomazbr9.buildprice.identity.domain.entity.UserEntity;
 import com.tomazbr9.buildprice.identity.domain.enums.UserRole;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -257,7 +258,7 @@ class RefreshTokenUseCaseImplTest {
         UserEntity user = UserEntity.restore(
                 userId,
                 "Bruno",
-                "bruno@email.com",
+                Email.of("bruno@email.com"),
                 "password-hash",
                 UserRole.USER
         );

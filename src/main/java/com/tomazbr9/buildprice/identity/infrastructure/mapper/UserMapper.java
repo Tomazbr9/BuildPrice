@@ -1,6 +1,7 @@
 package com.tomazbr9.buildprice.identity.infrastructure.mapper;
 
 import com.tomazbr9.buildprice.identity.domain.entity.UserEntity;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import com.tomazbr9.buildprice.identity.infrastructure.entity.UserJpaEntity;
 
 public class UserMapper {
@@ -23,7 +24,7 @@ public class UserMapper {
         return UserEntity.restore(
                 user.getId(),
                 user.getName(),
-                user.getEmail(),
+                Email.of(user.getEmail()),
                 user.getPasswordHash(),
                 user.getRole()
         );

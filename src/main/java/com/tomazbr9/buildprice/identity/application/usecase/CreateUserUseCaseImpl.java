@@ -6,6 +6,7 @@ import com.tomazbr9.buildprice.identity.application.port.in.CreateUserUseCase;
 import com.tomazbr9.buildprice.identity.application.port.out.PasswordHasher;
 import com.tomazbr9.buildprice.identity.application.port.out.UserRepository;
 import com.tomazbr9.buildprice.identity.domain.entity.UserEntity;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
         UserEntity user = UserEntity.create(
                 command.name(),
-                command.email(),
+                Email.of(command.email()),
                 passwordHash
         );
 

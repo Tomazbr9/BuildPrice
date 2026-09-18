@@ -1,6 +1,7 @@
 package com.tomazbr9.buildprice.identity.domain.entity;
 
 import com.tomazbr9.buildprice.identity.domain.enums.UserRole;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 
 import java.util.UUID;
 
@@ -8,7 +9,7 @@ public class UserEntity {
 
     private UUID id;
     private String name;
-    private String email;
+    private Email email;
     private String passwordHash;
     private UserRole role;
 
@@ -16,20 +17,20 @@ public class UserEntity {
 
     }
 
-    public static UserEntity create(String name, String email, String passwordHash){
-        UserEntity usuario = new UserEntity();
+    public static UserEntity create(String name, Email email, String passwordHash){
+        UserEntity user = new UserEntity();
 
-        usuario.id = UUID.randomUUID();
-        usuario.name = name;
-        usuario.email = email;
-        usuario.passwordHash = passwordHash;
-        usuario.role = UserRole.USER;
+        user.id = UUID.randomUUID();
+        user.name = name;
+        user.email = email;
+        user.passwordHash = passwordHash;
+        user.role = UserRole.USER;
 
-        return usuario;
+        return user;
 
     }
 
-    public static UserEntity restore(UUID id, String nome, String email, String senhaHash, UserRole papel){
+    public static UserEntity restore(UUID id, String nome, Email email, String senhaHash, UserRole papel){
         UserEntity user = new UserEntity();
 
         user.id = id;
@@ -50,7 +51,7 @@ public class UserEntity {
     }
 
     public String getEmail(){
-        return email;
+        return email.toString();
     }
 
     public String getPasswordHash(){

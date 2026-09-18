@@ -2,6 +2,7 @@ package com.tomazbr9.buildprice.identity.infrastructure.persistence;
 
 import com.tomazbr9.buildprice.identity.domain.entity.UserEntity;
 import com.tomazbr9.buildprice.identity.application.port.out.UserRepository;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import com.tomazbr9.buildprice.identity.infrastructure.entity.UserJpaEntity;
 import com.tomazbr9.buildprice.identity.infrastructure.mapper.UserMapper;
 import jakarta.persistence.EntityManager;
