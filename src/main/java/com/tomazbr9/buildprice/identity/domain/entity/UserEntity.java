@@ -50,8 +50,8 @@ public class UserEntity {
         return name;
     }
 
-    public String getEmail(){
-        return email.toString();
+    public Email getEmail(){
+        return email;
     }
 
     public String getPasswordHash(){

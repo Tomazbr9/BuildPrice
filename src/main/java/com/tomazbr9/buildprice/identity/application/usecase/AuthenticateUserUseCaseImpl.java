@@ -45,7 +45,7 @@ public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
 
         String accessToken =
                 tokenProvider.generateAccessToken(
-                        user.email(),
+                        user.email().value(),
                         user.role()
                 );
 

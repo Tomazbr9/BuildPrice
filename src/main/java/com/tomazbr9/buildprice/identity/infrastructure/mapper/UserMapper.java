@@ -14,7 +14,7 @@ public class UserMapper {
         return UserJpaEntity.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .email(user.getEmail())
+                .email(user.getEmail().value())
                 .passwordHash(user.getPasswordHash())
                 .role(user.getRole())
                 .build();

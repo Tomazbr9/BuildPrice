@@ -60,7 +60,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
                 .orElseThrow(UserNotFoundException::new);
 
         String accessToken = tokenProvider.generateAccessToken(
-                user.getEmail(),
+                user.getEmail().value(),
                 user.getRole().name()
         );
 
