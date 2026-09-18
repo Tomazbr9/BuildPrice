@@ -25,8 +25,8 @@ public class UserJpaRepositoryAdapter implements UserRepository {
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<UserEntity> findByEmail(String email) {
-        return userJpaRepository.findByEmail(email).map(UserMapper::toEntity);
+    public Optional<UserEntity> findByEmail(Email email) {
+        return userJpaRepository.findByEmail(email.value()).map(UserMapper::toEntity);
     }
 
     @Override

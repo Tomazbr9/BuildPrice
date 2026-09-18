@@ -28,8 +28,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     public UUID execute(CreateUserCommand command) {
 
+        Email email = Email.of(command.email());
+
         if (userRepository
-                .findByEmail(command.email())
+                .findByEmail(email)
                 .isPresent()) {
 
             throw new EmailAlreadyRegisteredException();
@@ -40,7 +42,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
         UserEntity user = UserEntity.create(
                 command.name(),
-                Email.of(command.email()),
+                email,
                 passwordHash
         );
 

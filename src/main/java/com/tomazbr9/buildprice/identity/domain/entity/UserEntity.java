@@ -13,10 +13,6 @@ public class UserEntity {
     private String passwordHash;
     private UserRole role;
 
-    public UserEntity(){
-
-    }
-
     public static UserEntity create(String name, Email email, String passwordHash){
         UserEntity user = new UserEntity();
 
@@ -30,14 +26,14 @@ public class UserEntity {
 
     }
 
-    public static UserEntity restore(UUID id, String nome, Email email, String senhaHash, UserRole papel){
+    public static UserEntity restore(UUID id, String name, Email email, String passwordHash, UserRole role){
         UserEntity user = new UserEntity();
 
         user.id = id;
-        user.name = nome;
+        user.name = name;
         user.email = email;
-        user.passwordHash = senhaHash;
-        user.role = papel;
+        user.passwordHash = passwordHash;
+        user.role = role;
 
         return user;
     }

@@ -88,7 +88,7 @@ class UserRepositoryAdapterTest {
 
         UserEntity found =
                 userRepository
-                        .findByEmail("bruno@email.com")
+                        .findByEmail(Email.of("bruno@email.com"))
                         .orElseThrow();
 
         assertEquals(user.getId(), found.getId());
@@ -102,7 +102,7 @@ class UserRepositoryAdapterTest {
 
         assertTrue(
                 userRepository
-                        .findByEmail("naoexiste@email.com")
+                        .findByEmail(Email.of("naoexiste@email.com"))
                         .isEmpty()
         );
     }

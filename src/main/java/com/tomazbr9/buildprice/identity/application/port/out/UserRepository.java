@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface UserRepository {
 
-    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByEmail(Email email);
 
     Optional<UserEntity> findById(UUID id);
 

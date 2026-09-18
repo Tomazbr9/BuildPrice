@@ -2,6 +2,7 @@ package com.tomazbr9.buildprice.identity.infrastructure.security;
 
 import com.tomazbr9.buildprice.identity.application.dto.AuthenticatedUser;
 import com.tomazbr9.buildprice.identity.application.port.out.UserAuthentication;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,7 +39,7 @@ public class SpringUserAuthentication
 
         return new AuthenticatedUser(
                 userDetailsImpl.getId(),
-                userDetailsImpl.getUsername(),
+                Email.of(userDetailsImpl.getUsername()),
                 userDetailsImpl.getRole()
         );
     }

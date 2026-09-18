@@ -2,6 +2,7 @@ package com.tomazbr9.buildprice.identity.infrastructure.security;
 
 import com.tomazbr9.buildprice.identity.application.port.out.UserRepository;
 import com.tomazbr9.buildprice.identity.domain.entity.UserEntity;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
 
         UserEntity user = userRepository
-                .findByEmail(email)
+                .findByEmail(Email.of(email))
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 "Usuário não encontrado"

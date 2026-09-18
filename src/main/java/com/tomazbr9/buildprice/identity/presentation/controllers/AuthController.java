@@ -28,7 +28,7 @@ public class AuthController {
     private final LogoutUseCase logoutUseCase;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest request){
+    public ResponseEntity<LoginResponse> authenticateUser(@Valid @RequestBody LoginRequest request){
 
         AuthenticateUserCommand command = new AuthenticateUserCommand(
                 request.email(),

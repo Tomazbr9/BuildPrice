@@ -5,6 +5,7 @@ import com.tomazbr9.buildprice.identity.application.dto.AuthenticatedUser;
 import com.tomazbr9.buildprice.identity.application.dto.TokenResult;
 import com.tomazbr9.buildprice.identity.application.port.out.*;
 import com.tomazbr9.buildprice.identity.domain.enums.UserRole;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,7 +80,7 @@ class AuthenticateUserUseCaseImplTest {
         AuthenticatedUser authenticatedUser =
                 new AuthenticatedUser(
                         userId,
-                        email,
+                        Email.of(email),
                         UserRole.USER.name()
                 );
 
@@ -87,7 +88,7 @@ class AuthenticateUserUseCaseImplTest {
                 .thenReturn(authenticatedUser);
 
         when(tokenProvider.generateAccessToken(
-                authenticatedUser.email(),
+                authenticatedUser.email().value(),
                 authenticatedUser.role())
         )
                 .thenReturn(accessToken);

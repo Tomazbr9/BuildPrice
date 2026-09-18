@@ -3,6 +3,7 @@ package com.tomazbr9.buildprice.identity.presentation.controllers;
 import com.tomazbr9.buildprice.identity.application.command.CreateUserCommand;
 import com.tomazbr9.buildprice.identity.application.port.in.CreateUserUseCase;
 import com.tomazbr9.buildprice.identity.presentation.request.CreateUserRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
     private final CreateUserUseCase createUserUsecase;
 
     @PostMapping("/register")
-    public ResponseEntity<UUID> createUser(@RequestBody CreateUserRequest request){
+    public ResponseEntity<UUID> createUser(@Valid @RequestBody CreateUserRequest request){
 
         CreateUserCommand command = new CreateUserCommand(
                 request.name(),

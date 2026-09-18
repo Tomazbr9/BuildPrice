@@ -11,10 +11,6 @@ public class RefreshTokenEntity {
     private LocalDateTime expiresAt;
     private boolean revoked;
 
-    public RefreshTokenEntity(){
-
-    }
-
     public static RefreshTokenEntity create(
             UUID userId,
             String tokenHash,

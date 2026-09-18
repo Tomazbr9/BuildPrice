@@ -279,7 +279,7 @@ class RefreshTokenUseCaseImplTest {
         when(userRepository.findById(userId))
                 .thenReturn(Optional.of(user));
 
-        when(tokenProvider.generateAccessToken(authenticatedUser.email(), authenticatedUser.role()))
+        when(tokenProvider.generateAccessToken(authenticatedUser.email().value(), authenticatedUser.role()))
                 .thenReturn(newAccessToken);
 
         when(refreshTokenGenerator.generate())

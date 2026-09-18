@@ -6,6 +6,7 @@ import com.tomazbr9.buildprice.identity.application.dto.AuthenticatedUser;
 import com.tomazbr9.buildprice.identity.application.port.in.AuthenticateUserUseCase;
 import com.tomazbr9.buildprice.identity.application.port.out.*;
 import com.tomazbr9.buildprice.identity.domain.entity.RefreshTokenEntity;
+import com.tomazbr9.buildprice.identity.domain.valueobjects.Email;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,8 +41,10 @@ public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
     @Override
     public TokenResult execute(AuthenticateUserCommand command) {
 
+        Email email = Email.of(command.email());
+
         AuthenticatedUser user =
-                userAuthentication.authenticate(command.email(), command.password());
+                userAuthentication.authenticate(email.value(), command.password());
 
         String accessToken =
                 tokenProvider.generateAccessToken(
