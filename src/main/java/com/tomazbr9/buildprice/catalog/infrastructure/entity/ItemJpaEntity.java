@@ -42,6 +42,4 @@ public class ItemJpaEntity {
     @Column(name = "unit_price", nullable = false, precision = 19, scale = 6)
     private BigDecimal unitPrice;
 
-
-
 }

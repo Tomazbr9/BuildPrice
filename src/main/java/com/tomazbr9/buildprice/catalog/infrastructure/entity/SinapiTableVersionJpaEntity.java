@@ -37,7 +37,7 @@ public class SinapiTableVersionJpaEntity {
     @JoinColumn(name = "state_id", nullable = false)
     private StateJpaEntity state;
 
-    @Convert(convert = YearMonthAttributeConvert.class)
+    @Convert(converter = YearMonthAttributeConvert.class)
     @Column(name = "reference_month", nullable = false)
     private YearMonth referenceMonth;
 

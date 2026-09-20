@@ -31,7 +31,7 @@ public class CompositionItemJpaEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false, name = "composition_id")
-    private  CompositionItemJpaEntity composition;
+    private CompositionJpaEntity composition;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false, name = "item_id")
