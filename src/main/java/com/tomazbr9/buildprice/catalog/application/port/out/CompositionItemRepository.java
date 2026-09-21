@@ -10,4 +10,6 @@ public interface CompositionItemRepository {
     List<CompositionItem> findByCompositionId(UUID compositionId);
 
     CompositionItem save(CompositionItem compositionItem);
+
+    List<CompositionItem> saveAll(List<CompositionItem> compositionItems);
 }

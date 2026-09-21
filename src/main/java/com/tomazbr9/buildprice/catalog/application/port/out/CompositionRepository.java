@@ -18,4 +18,6 @@ public interface CompositionRepository {
     );
 
     Composition save(Composition composition);
+
+    List<Composition> saveAll(List<Composition> compositions);
 }

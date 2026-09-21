@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -78,5 +79,38 @@ public class ItemJpaRepositoryAdapter
         entityManager.persist(entity);
 
         return ItemMapper.toEntity(entity);
+    }
+
+    @Override
+    @Transactional
+    public List<Item> saveAll(
+            List<Item> items
+    ) {
+
+        List<Item> saved =
+                new ArrayList<>(items.size());
+
+        for (Item item : items) {
+
+            SinapiTableVersionJpaEntity version =
+                    entityManager.getReference(
+                            SinapiTableVersionJpaEntity.class,
+                            item.getSinapiTableVersionId()
+                    );
+
+            ItemJpaEntity entity =
+                    ItemMapper.toJpaEntity(
+                            item,
+                            version
+                    );
+
+            entityManager.persist(entity);
+
+            saved.add(
+                    ItemMapper.toEntity(entity)
+            );
+        }
+
+        return saved;
     }
 }
