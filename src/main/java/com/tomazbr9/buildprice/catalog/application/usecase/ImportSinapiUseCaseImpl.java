@@ -24,6 +24,7 @@ public class ImportSinapiUseCaseImpl
     private final CompositionItemRepository compositionItemRepository;
     private final SinapiFileParser parser;
     private final SinapiImportValidator validator;
+    private final CompositionChildRepository compositionChildRepository;
 
     public ImportSinapiUseCaseImpl(
             StateRepository stateRepository,
@@ -32,7 +33,8 @@ public class ImportSinapiUseCaseImpl
             ItemRepository itemRepository,
             CompositionItemRepository compositionItemRepository,
             SinapiFileParser parser,
-            SinapiImportValidator validator
+            SinapiImportValidator validator,
+            CompositionChildRepository compositionChildRepository
     ) {
         this.stateRepository = stateRepository;
         this.versionRepository = versionRepository;
@@ -41,6 +43,7 @@ public class ImportSinapiUseCaseImpl
         this.compositionItemRepository = compositionItemRepository;
         this.parser = parser;
         this.validator = validator;
+        this.compositionChildRepository = compositionChildRepository;
     }
 
     @Override
@@ -69,7 +72,11 @@ public class ImportSinapiUseCaseImpl
         }
 
         SinapiImportData importData =
-                parser.parse(command.file());
+                parser.parse(
+                        command.file(),
+                        state.getStateAbbreviation(),
+                        command.taxReliefRegime()
+                );
 
         validator.validate(importData);
 
@@ -92,7 +99,8 @@ public class ImportSinapiUseCaseImpl
                                         savedVersion.getId(),
                                         data.code(),
                                         data.description(),
-                                        data.unit()
+                                        data.unit(),
+                                        data.unitCost()
                                 )
                         )
                         .toList();
@@ -166,6 +174,33 @@ public class ImportSinapiUseCaseImpl
 
         compositionItemRepository.saveAll(
                 relations
+        );
+
+        List<CompositionChild> compositionChildren =
+                importData.compositionChildren()
+                        .stream()
+                        .map(data -> {
+
+                            Composition composition =
+                                    compositionsByCode.get(
+                                            data.compositionCode()
+                                    );
+
+                            Composition childComposition =
+                                    compositionsByCode.get(
+                                            data.childCompositionCode()
+                                    );
+
+                            return CompositionChild.create(
+                                    composition.getId(),
+                                    childComposition.getId(),
+                                    data.coefficient()
+                            );
+                        })
+                        .toList();
+
+        compositionChildRepository.saveAll(
+                compositionChildren
         );
 
         return savedVersion.getId();

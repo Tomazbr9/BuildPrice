@@ -5,6 +5,7 @@ import java.util.List;
 public record SinapiImportData(
         List<ImportedCompositionData> compositions,
         List<ImportedItemData> items,
-        List<ImportedCompositionItemData> compositionItems
+        List<ImportedCompositionItemData> compositionItems,
+        List<ImportedCompositionChildData> compositionChildren
 ) {
 }

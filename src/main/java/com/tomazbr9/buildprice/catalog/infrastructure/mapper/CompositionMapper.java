@@ -20,6 +20,7 @@ public final class CompositionMapper {
                 .code(composition.getCode())
                 .description(composition.getDescription())
                 .unit(composition.getUnit())
+                .unitCost(composition.getUnitCost())
                 .build();
     }
 
@@ -29,7 +30,8 @@ public final class CompositionMapper {
                 composition.getVersion().getId(),
                 composition.getCode(),
                 composition.getDescription(),
-                composition.getUnit()
+                composition.getUnit(),
+                composition.getUnitCost()
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.tomazbr9.buildprice.catalog.domain.entity;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Composition {
@@ -9,6 +10,7 @@ public class Composition {
     private String code;
     private String description;
     private String unit;
+    private BigDecimal unitCost;
 
     private Composition(){
 
@@ -18,7 +20,8 @@ public class Composition {
             UUID sinapiTableVersionId,
             String code,
             String description,
-            String unit
+            String unit,
+            BigDecimal unitCost
     ){
        Composition composition = new Composition();
 
@@ -27,6 +30,7 @@ public class Composition {
        composition.code = code.trim();
        composition.description = description.trim();
        composition.unit = unit.trim().toUpperCase();
+       composition.unitCost = unitCost;
 
        return composition;
     }
@@ -36,7 +40,8 @@ public class Composition {
             UUID sinapiTableVersionId,
             String code,
             String description,
-            String unit
+            String unit,
+            BigDecimal unitCost
     ){
         Composition composition = new Composition();
 
@@ -45,6 +50,7 @@ public class Composition {
         composition.code = code;
         composition.description = description;
         composition.unit = unit;
+        composition.unitCost = unitCost;
 
         return composition;
     }
@@ -67,5 +73,9 @@ public class Composition {
 
     public String getUnit() {
         return unit;
+    }
+
+    public BigDecimal getUnitCost() {
+        return unitCost;
     }
 }

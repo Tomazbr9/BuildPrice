@@ -3,6 +3,7 @@ package com.tomazbr9.buildprice.catalog.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -40,4 +41,12 @@ public class CompositionJpaEntity {
 
     @Column(nullable = false, length = 30)
     private String unit;
+
+    @Column(
+            name = "unit_cost",
+            nullable = false,
+            precision = 19,
+            scale = 6
+    )
+    private BigDecimal unitCost;
 }

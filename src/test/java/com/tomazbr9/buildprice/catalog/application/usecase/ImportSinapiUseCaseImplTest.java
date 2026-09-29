@@ -50,6 +50,9 @@ class ImportSinapiUseCaseImplTest {
     @Mock
     private SinapiImportValidator validator;
 
+    @Mock
+    private CompositionChildRepository compositionChildRepository;
+
     private ImportSinapiUseCaseImpl useCase;
 
     @BeforeEach
@@ -61,7 +64,8 @@ class ImportSinapiUseCaseImplTest {
                 itemRepository,
                 compositionItemRepository,
                 parser,
-                validator
+                validator,
+                compositionChildRepository
         );
     }
 
@@ -164,8 +168,13 @@ class ImportSinapiUseCaseImplTest {
                         )
         ).thenReturn(false);
 
-        when(parser.parse(command.file()))
-                .thenReturn(data);
+        when(
+                parser.parse(
+                        command.file(),
+                        state.getStateAbbreviation(),
+                        command.taxReliefRegime()
+                )
+        ).thenReturn(data);
 
         doThrow(
                 new InvalidSinapiImportDataException(
@@ -181,7 +190,11 @@ class ImportSinapiUseCaseImplTest {
         );
 
         verify(parser)
-                .parse(command.file());
+                .parse(
+                        command.file(),
+                        state.getStateAbbreviation(),
+                        command.taxReliefRegime()
+                );
 
         verify(validator)
                 .validate(data);
@@ -225,8 +238,13 @@ class ImportSinapiUseCaseImplTest {
                         )
         ).thenReturn(false);
 
-        when(parser.parse(command.file()))
-                .thenReturn(data);
+        when(
+                parser.parse(
+                        command.file(),
+                        state.getStateAbbreviation(),
+                        command.taxReliefRegime()
+                )
+        ).thenReturn(data);
 
         SinapiTableVersion savedVersion =
                 SinapiTableVersion.create(
@@ -263,7 +281,11 @@ class ImportSinapiUseCaseImplTest {
         );
 
         verify(parser)
-                .parse(command.file());
+                .parse(
+                        command.file(),
+                        state.getStateAbbreviation(),
+                        command.taxReliefRegime()
+                );
 
         verify(validator)
                 .validate(data);
@@ -385,7 +407,8 @@ class ImportSinapiUseCaseImplTest {
                         new ImportedCompositionData(
                                 "103689",
                                 "Execução de alvenaria",
-                                "M2"
+                                "M2",
+                                new BigDecimal("87.450000")
                         )
                 ),
 
@@ -404,7 +427,9 @@ class ImportSinapiUseCaseImplTest {
                                 "00007271",
                                 new BigDecimal("13.5")
                         )
-                )
+                ),
+
+                List.of()
         );
     }
 }

@@ -31,7 +31,8 @@ import static org.junit.jupiter.api.Assertions.*;
         SinapiTableVersionJpaRepositoryAdapter.class,
         CompositionJpaRepositoryAdapter.class,
         ItemJpaRepositoryAdapter.class,
-        CompositionItemJpaRepositoryAdapter.class
+        CompositionItemJpaRepositoryAdapter.class,
+        CompositionChildJpaRepositoryAdapter.class
 })
 class CatalogPersistenceTest {
 
@@ -54,6 +55,9 @@ class CatalogPersistenceTest {
 
     @Autowired
     private CompositionItemRepository compositionItemRepository;
+
+    @Autowired
+    private CompositionChildRepository compositionChildRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -85,18 +89,31 @@ class CatalogPersistenceTest {
                         savedVersion.getId(),
                         "103689",
                         "Execução de alvenaria",
-                        "M2"
+                        "M2",
+                        new BigDecimal("87.450000")
                 );
 
         Composition savedComposition =
                 compositionRepository.save(composition);
+
+        Composition childComposition =
+                Composition.create(
+                        savedVersion.getId(),
+                        "88316",
+                        "Servente com encargos complementares",
+                        "H",
+                        new BigDecimal("24.500000")
+                );
+
+        Composition savedChildComposition =
+                compositionRepository.save(childComposition);
 
         Item item =
                 Item.create(
                         savedVersion.getId(),
                         "00007271",
                         "Bloco cerâmico",
-                        "M",
+                        "UN",
                         new BigDecimal("2.350000")
                 );
 
@@ -113,14 +130,26 @@ class CatalogPersistenceTest {
         CompositionItem savedRelation =
                 compositionItemRepository.save(relation);
 
+        CompositionChild childRelation =
+                CompositionChild.create(
+                        savedComposition.getId(),
+                        savedChildComposition.getId(),
+                        new BigDecimal("1.27900000")
+                );
+
+        CompositionChild savedChildRelation =
+                compositionChildRepository.save(childRelation);
+
         entityManager.flush();
         entityManager.clear();
 
         assertNotNull(savedState.getId());
         assertNotNull(savedVersion.getId());
         assertNotNull(savedComposition.getId());
+        assertNotNull(savedChildComposition.getId());
         assertNotNull(savedItem.getId());
         assertNotNull(savedRelation.getId());
+        assertNotNull(savedChildRelation.getId());
 
         SinapiTableVersion foundVersion =
                 sinapiTableVersionRepository
@@ -150,6 +179,14 @@ class CatalogPersistenceTest {
                 foundComposition.getDescription()
         );
 
+        assertEquals(
+                0,
+                new BigDecimal("87.450000")
+                        .compareTo(
+                                foundComposition.getUnitCost()
+                        )
+        );
+
         Item foundItem =
                 itemRepository
                         .findBySinapiTableVersionIdAndCode(
@@ -159,9 +196,16 @@ class CatalogPersistenceTest {
                         .orElseThrow();
 
         assertEquals(
+                "UN",
+                foundItem.getUnit()
+        );
+
+        assertEquals(
                 0,
                 new BigDecimal("2.350000")
-                        .compareTo(foundItem.getUnitPrice())
+                        .compareTo(
+                                foundItem.getUnitPrice()
+                        )
         );
 
         var relations =
@@ -170,7 +214,10 @@ class CatalogPersistenceTest {
                                 savedComposition.getId()
                         );
 
-        assertEquals(1, relations.size());
+        assertEquals(
+                1,
+                relations.size()
+        );
 
         assertEquals(
                 savedItem.getId(),
@@ -181,7 +228,37 @@ class CatalogPersistenceTest {
                 0,
                 new BigDecimal("13.50000000")
                         .compareTo(
-                                relations.getFirst().getCoefficient()
+                                relations
+                                        .getFirst()
+                                        .getCoefficient()
+                        )
+        );
+
+        var children =
+                compositionChildRepository
+                        .findByCompositionId(
+                                savedComposition.getId()
+                        );
+
+        assertEquals(
+                1,
+                children.size()
+        );
+
+        assertEquals(
+                savedChildComposition.getId(),
+                children
+                        .getFirst()
+                        .getChildCompositionId()
+        );
+
+        assertEquals(
+                0,
+                new BigDecimal("1.27900000")
+                        .compareTo(
+                                children
+                                        .getFirst()
+                                        .getCoefficient()
                         )
         );
     }

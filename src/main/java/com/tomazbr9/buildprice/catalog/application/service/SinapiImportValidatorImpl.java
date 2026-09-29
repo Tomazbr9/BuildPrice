@@ -40,6 +40,12 @@ public class SinapiImportValidatorImpl
                 errors
         );
 
+        validateCompositionChildren(
+                data.compositionChildren(),
+                data.compositions(),
+                errors
+        );
+
         if (!errors.isEmpty()) {
             throw new InvalidSinapiImportDataException(
                     errors
@@ -292,6 +298,154 @@ public class SinapiImportValidatorImpl
         }
     }
 
+    private void validateCompositionChildren(
+            List<ImportedCompositionChildData> relations,
+            List<ImportedCompositionData> compositions,
+            List<String> errors
+    ) {
+
+        if (relations == null) {
+            errors.add(
+                    "Relações entre composições não podem ser nulas"
+            );
+            return;
+        }
+
+        Set<String> compositionCodes =
+                extractCompositionCodes(compositions);
+
+        Set<String> relationsFound =
+                new HashSet<>();
+
+        for (int i = 0; i < relations.size(); i++) {
+
+            ImportedCompositionChildData relation =
+                    relations.get(i);
+
+            if (relation == null) {
+                errors.add(
+                        "Relação entre composições na posição "
+                                + i
+                                + " é nula"
+                );
+                continue;
+            }
+
+            String compositionCode =
+                    normalize(
+                            relation.compositionCode()
+                    );
+
+            String childCompositionCode =
+                    normalize(
+                            relation.childCompositionCode()
+                    );
+
+            if (compositionCode == null) {
+
+                errors.add(
+                        "Relação na posição "
+                                + i
+                                + " está sem código da composição principal"
+                );
+
+            } else if (
+                    !compositionCodes.contains(
+                            compositionCode
+                    )
+            ) {
+
+                errors.add(
+                        "Composição principal referenciada não existe: "
+                                + compositionCode
+                );
+            }
+
+            if (childCompositionCode == null) {
+
+                errors.add(
+                        "Relação na posição "
+                                + i
+                                + " está sem código da composição filha"
+                );
+
+            } else if (
+                    !compositionCodes.contains(
+                            childCompositionCode
+                    )
+            ) {
+
+                errors.add(
+                        "Composição filha referenciada não existe: "
+                                + childCompositionCode
+                );
+            }
+
+            if (
+                    compositionCode != null
+                            && childCompositionCode != null
+                            && compositionCode.equals(
+                            childCompositionCode
+                    )
+            ) {
+
+                errors.add(
+                        "Uma composição não pode referenciar ela mesma: "
+                                + compositionCode
+                );
+            }
+
+            BigDecimal coefficient =
+                    relation.coefficient();
+
+            if (coefficient == null) {
+
+                errors.add(
+                        "Coeficiente não informado entre composição "
+                                + safeCode(compositionCode)
+                                + " e composição filha "
+                                + safeCode(childCompositionCode)
+                );
+
+            } else if (
+                    coefficient.signum() <= 0
+            ) {
+
+                errors.add(
+                        "Coeficiente deve ser maior que zero entre composição "
+                                + safeCode(compositionCode)
+                                + " e composição filha "
+                                + safeCode(childCompositionCode)
+                );
+            }
+
+            if (
+                    compositionCode != null
+                            && childCompositionCode != null
+            ) {
+
+                String relationKey =
+                        compositionCode
+                                + "::"
+                                + childCompositionCode;
+
+                if (
+                        !relationsFound.add(
+                                relationKey
+                        )
+                ) {
+
+                    errors.add(
+                            "Relação duplicada entre composição "
+                                    + compositionCode
+                                    + " e composição filha "
+                                    + childCompositionCode
+                    );
+                }
+            }
+        }
+    }
+
     private Set<String> extractCompositionCodes(
             List<ImportedCompositionData> compositions
     ) {
@@ -369,4 +523,6 @@ public class SinapiImportValidatorImpl
 
         return value.trim();
     }
+
+
 }
