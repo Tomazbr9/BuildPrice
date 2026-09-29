@@ -39,6 +39,9 @@ public class ItemJpaEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false, length = 30)
+    private String unit;
+
     @Column(name = "unit_price", nullable = false, precision = 19, scale = 6)
     private BigDecimal unitPrice;
 

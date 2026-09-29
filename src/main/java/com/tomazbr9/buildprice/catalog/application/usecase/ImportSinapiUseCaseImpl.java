@@ -105,6 +105,7 @@ public class ImportSinapiUseCaseImpl
                                         savedVersion.getId(),
                                         data.code(),
                                         data.description(),
+                                        data.unit(),
                                         data.unitPrice()
                                 )
                         )

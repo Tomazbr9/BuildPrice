@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public record ImportedItemData(
         String code,
         String description,
+        String unit,
         BigDecimal unitPrice
 ) {
 }

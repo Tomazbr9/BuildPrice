@@ -19,6 +19,7 @@ public final class ItemMapper {
                 .version(version)
                 .code(item.getCode())
                 .description(item.getDescription())
+                .unit(item.getUnit())
                 .unitPrice(item.getUnitPrice())
                 .build();
     }
@@ -29,6 +30,7 @@ public final class ItemMapper {
                 item.getVersion().getId(),
                 item.getCode(),
                 item.getDescription(),
+                item.getUnit(),
                 item.getUnitPrice()
         );
     }

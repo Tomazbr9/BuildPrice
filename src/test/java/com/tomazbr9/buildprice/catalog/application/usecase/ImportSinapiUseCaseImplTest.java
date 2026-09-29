@@ -393,6 +393,7 @@ class ImportSinapiUseCaseImplTest {
                         new ImportedItemData(
                                 "00007271",
                                 "Bloco cerâmico",
+                                "M",
                                 new BigDecimal("2.35")
                         )
                 ),

@@ -1,0 +1,2 @@
+ALTER TABLE tb_items
+    ADD COLUMN unit VARCHAR(30) NOT NULL;

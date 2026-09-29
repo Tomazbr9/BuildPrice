@@ -9,6 +9,7 @@ public class Item {
     private UUID sinapiTableVersionId;
     private String code;
     private String description;
+    private String unit;
     private BigDecimal unitPrice;
 
     private Item(){
@@ -19,6 +20,7 @@ public class Item {
             UUID sinapiTableVersionId,
             String code,
             String description,
+            String unit,
             BigDecimal unitPrice
     ){
         Item item = new Item();
@@ -27,6 +29,7 @@ public class Item {
         item.sinapiTableVersionId = sinapiTableVersionId;
         item.code = code.trim();
         item.description = description.trim();
+        item.unit = unit.trim().toUpperCase();
         item.unitPrice = unitPrice;
 
         return item;
@@ -37,6 +40,7 @@ public class Item {
             UUID sinapiTableVersionId,
             String code,
             String description,
+            String unit,
             BigDecimal unitPrice
     ){
         Item item = new Item();
@@ -45,6 +49,7 @@ public class Item {
         item.sinapiTableVersionId = sinapiTableVersionId;
         item.code = code.trim();
         item.description = description.trim();
+        item.unit = unit.trim().toUpperCase();
         item.unitPrice = unitPrice;
 
         return item;
@@ -64,6 +69,10 @@ public class Item {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getUnit() {
+        return unit;
     }
 
     public BigDecimal getUnitPrice() {

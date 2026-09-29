@@ -96,6 +96,7 @@ class CatalogPersistenceTest {
                         savedVersion.getId(),
                         "00007271",
                         "Bloco cerâmico",
+                        "M",
                         new BigDecimal("2.350000")
                 );
 
