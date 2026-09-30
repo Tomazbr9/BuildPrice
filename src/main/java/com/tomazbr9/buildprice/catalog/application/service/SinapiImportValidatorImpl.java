@@ -172,14 +172,8 @@ public class SinapiImportValidatorImpl
             BigDecimal unitPrice =
                     item.unitPrice();
 
-            if (unitPrice == null) {
-                errors.add(
-                        "Insumo "
-                                + safeCode(item.code())
-                                + " está sem preço unitário"
-                );
-
-            } else if (unitPrice.signum() < 0) {
+            if (unitPrice != null
+                    && unitPrice.signum() < 0) {
 
                 errors.add(
                         "Insumo "
@@ -263,6 +257,7 @@ public class SinapiImportValidatorImpl
                     relation.coefficient();
 
             if (coefficient == null) {
+
                 errors.add(
                         "Coeficiente não informado para composição "
                                 + safeCode(compositionCode)
@@ -270,16 +265,15 @@ public class SinapiImportValidatorImpl
                                 + safeCode(itemCode)
                 );
 
-            } else if (coefficient.signum() <= 0) {
+            } else if (coefficient.signum() < 0) {
 
                 errors.add(
-                        "Coeficiente deve ser maior que zero para composição "
+                        "Coeficiente não pode ser negativo para composição "
                                 + safeCode(compositionCode)
                                 + " e insumo "
                                 + safeCode(itemCode)
                 );
             }
-
             if (compositionCode != null
                     && itemCode != null) {
 
@@ -408,7 +402,7 @@ public class SinapiImportValidatorImpl
                 );
 
             } else if (
-                    coefficient.signum() <= 0
+                    coefficient.signum() < 0
             ) {
 
                 errors.add(

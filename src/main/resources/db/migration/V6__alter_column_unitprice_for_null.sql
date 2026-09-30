@@ -1,0 +1,2 @@
+ALTER TABLE tb_items
+    ALTER COLUMN unit_price DROP NOT NULL;

@@ -219,7 +219,7 @@ class SinapiImportValidatorImplTest {
                                 new ImportedCompositionChildData(
                                         "104658",
                                         "88316",
-                                        BigDecimal.ZERO
+                                        new BigDecimal("-1")
                                 )
                         )
                 );
@@ -240,6 +240,86 @@ class SinapiImportValidatorImplTest {
                                                 "Coeficiente deve ser maior que zero"
                                         )
                         )
+        );
+    }
+
+    @Test
+    void shouldAcceptItemWithoutPrice() {
+
+        SinapiImportData data =
+                new SinapiImportData(
+
+                        List.of(
+                                new ImportedCompositionData(
+                                        "105006",
+                                        "Rampa de acessibilidade",
+                                        "UN",
+                                        new BigDecimal("100.00")
+                                )
+                        ),
+
+                        List.of(
+                                new ImportedItemData(
+                                        "45087",
+                                        "Kit peças pré moldadas",
+                                        "UN",
+                                        null
+                                )
+                        ),
+
+                        List.of(
+                                new ImportedCompositionItemData(
+                                        "105006",
+                                        "45087",
+                                        BigDecimal.ONE
+                                )
+                        ),
+
+                        List.of()
+                );
+
+        assertDoesNotThrow(
+                () -> validator.validate(data)
+        );
+    }
+
+    @Test
+    void shouldAcceptZeroCoefficient() {
+
+        SinapiImportData data =
+                new SinapiImportData(
+
+                        List.of(
+                                new ImportedCompositionData(
+                                        "106514",
+                                        "Composição teste",
+                                        "UN",
+                                        new BigDecimal("100.00")
+                                )
+                        ),
+
+                        List.of(
+                                new ImportedItemData(
+                                        "436",
+                                        "Parafuso francês",
+                                        "UN",
+                                        new BigDecimal("5.00")
+                                )
+                        ),
+
+                        List.of(
+                                new ImportedCompositionItemData(
+                                        "106514",
+                                        "436",
+                                        BigDecimal.ZERO
+                                )
+                        ),
+
+                        List.of()
+                );
+
+        assertDoesNotThrow(
+                () -> validator.validate(data)
         );
     }
 }

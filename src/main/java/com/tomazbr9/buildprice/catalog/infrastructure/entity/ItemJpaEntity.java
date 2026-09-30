@@ -42,7 +42,7 @@ public class ItemJpaEntity {
     @Column(nullable = false, length = 30)
     private String unit;
 
-    @Column(name = "unit_price", nullable = false, precision = 19, scale = 6)
+    @Column(name = "unit_price", precision = 19, scale = 6)
     private BigDecimal unitPrice;
 
 }
