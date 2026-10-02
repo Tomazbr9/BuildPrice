@@ -3,6 +3,7 @@ package com.tomazbr9.buildprice.catalog.presentation.controller;
 import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
 import com.tomazbr9.buildprice.catalog.application.port.in.ImportSinapiUseCase;
 import com.tomazbr9.buildprice.catalog.domain.enums.TaxReliefRegime;
+import com.tomazbr9.buildprice.catalog.presentation.exception.CatalogExceptionHandler;
 import com.tomazbr9.buildprice.identity.infrastructure.security.JwtAuthenticationFilter;
 import com.tomazbr9.buildprice.identity.infrastructure.security.JwtService;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(SinapiImportController.class)
 @AutoConfigureMockMvc(addFilters = false)
+@Import(CatalogExceptionHandler.class)
 class SinapiImportControllerTest {
 
     @Autowired
