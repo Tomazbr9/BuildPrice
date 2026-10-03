@@ -1,9 +1,6 @@
 package com.tomazbr9.buildprice.catalog.presentation.exception;
 
-import com.tomazbr9.buildprice.catalog.application.exception.InvalidSinapiFileException;
-import com.tomazbr9.buildprice.catalog.application.exception.InvalidSinapiImportDataException;
-import com.tomazbr9.buildprice.catalog.application.exception.SinapiTableVersionAlreadyExistsException;
-import com.tomazbr9.buildprice.catalog.application.exception.StateNotFoundException;
+import com.tomazbr9.buildprice.catalog.application.exception.*;
 import com.tomazbr9.buildprice.shared.exception.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -21,6 +18,14 @@ public class CatalogExceptionHandler {
     @ExceptionHandler(StateNotFoundException.class)
     public ResponseEntity<ApiError> hanleStateNotFound(
             StateNotFoundException exception,
+            HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(CompositionNotFoundException.class)
+    public ResponseEntity<ApiError> handleCompositionNotFound(
+            CompositionNotFoundException exception,
             HttpServletRequest request
     ){
         return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
@@ -48,6 +53,11 @@ public class CatalogExceptionHandler {
             HttpServletRequest request
     ){
         return buildResponse(HttpStatus.CONFLICT, exception.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException exception, HttpServletRequest request){
+        return buildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

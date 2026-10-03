@@ -1,5 +1,6 @@
 package com.tomazbr9.buildprice.catalog.infrastructure.persistence;
 
+import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
 import com.tomazbr9.buildprice.catalog.application.port.out.CompositionRepository;
 import com.tomazbr9.buildprice.catalog.domain.entity.Composition;
 import com.tomazbr9.buildprice.catalog.infrastructure.entity.CompositionJpaEntity;
@@ -8,6 +9,9 @@ import com.tomazbr9.buildprice.catalog.infrastructure.mapper.CompositionMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -112,5 +116,41 @@ public class CompositionJpaRepositoryAdapter
         }
 
         return saved;
+    }
+
+    @Override
+    public PageResult<Composition> search(
+            UUID versionId,
+            String query,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable =
+                PageRequest.of(
+                        page,
+                        size
+                );
+
+        Page<CompositionJpaEntity> result =
+                repository.search(
+                        versionId,
+                        query,
+                        pageable
+                );
+
+        List<Composition> compositions =
+                result.getContent()
+                        .stream()
+                        .map(CompositionMapper::toEntity)
+                        .toList();
+
+        return new PageResult<>(
+                compositions,
+                result.getNumber(),
+                result.getSize(),
+                result.getTotalElements(),
+                result.getTotalPages()
+        );
     }
 }

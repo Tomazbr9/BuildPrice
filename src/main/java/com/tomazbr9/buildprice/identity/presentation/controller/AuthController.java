@@ -1,4 +1,4 @@
-package com.tomazbr9.buildprice.identity.presentation.controllers;
+package com.tomazbr9.buildprice.identity.presentation.controller;
 
 import com.tomazbr9.buildprice.identity.application.command.AuthenticateUserCommand;
 import com.tomazbr9.buildprice.identity.application.command.LogoutCommand;

@@ -1,5 +1,6 @@
 package com.tomazbr9.buildprice.catalog.application.port.out;
 
+import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
 import com.tomazbr9.buildprice.catalog.domain.entity.Composition;
 
 import java.util.List;
@@ -20,4 +21,11 @@ public interface CompositionRepository {
     Composition save(Composition composition);
 
     List<Composition> saveAll(List<Composition> compositions);
+
+    PageResult<Composition> search(
+            UUID versionId,
+            String query,
+            int page,
+            int size
+    );
 }

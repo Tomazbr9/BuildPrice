@@ -14,8 +14,8 @@ import java.util.UUID;
 
 public class CreateSinapiTableVersionUseCaseImpl implements CreateSinapiTableVersionUseCase {
 
-    private StateRepository stateRepository;
-    private SinapiTableVersionRepository sinapiTableVersionRepository;
+    private final StateRepository stateRepository;
+    private final SinapiTableVersionRepository sinapiTableVersionRepository;
 
 
     public CreateSinapiTableVersionUseCaseImpl(
@@ -53,6 +53,6 @@ public class CreateSinapiTableVersionUseCaseImpl implements CreateSinapiTableVer
 
         SinapiTableVersion saved = sinapiTableVersionRepository.save(version);
 
-        return version.getId();
+        return saved.getId();
     }
 }

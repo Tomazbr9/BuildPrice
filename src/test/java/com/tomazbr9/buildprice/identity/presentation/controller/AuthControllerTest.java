@@ -1,4 +1,4 @@
-package com.tomazbr9.buildprice.identity.presentation.controllers;
+package com.tomazbr9.buildprice.identity.presentation.controller;
 
 import com.tomazbr9.buildprice.identity.application.dto.TokenResult;
 import com.tomazbr9.buildprice.identity.application.exception.ExpiredRefreshTokenException;

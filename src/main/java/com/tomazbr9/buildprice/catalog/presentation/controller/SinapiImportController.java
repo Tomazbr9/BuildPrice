@@ -4,6 +4,7 @@ import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
 import com.tomazbr9.buildprice.catalog.application.port.in.ImportSinapiUseCase;
 import com.tomazbr9.buildprice.catalog.domain.enums.TaxReliefRegime;
 import com.tomazbr9.buildprice.catalog.presentation.response.SinapiImportResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/admin/sinapi")
+@RequiredArgsConstructor
 public class SinapiImportController {
 
     private final ImportSinapiUseCase importSinapiUseCase;
-
-    public SinapiImportController(
-            ImportSinapiUseCase importSinapiUseCase
-    ) {
-        this.importSinapiUseCase = importSinapiUseCase;
-    }
 
     @PostMapping(
             value = "/import",
