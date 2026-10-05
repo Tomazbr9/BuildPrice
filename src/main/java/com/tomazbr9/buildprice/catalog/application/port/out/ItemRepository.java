@@ -1,5 +1,6 @@
 package com.tomazbr9.buildprice.catalog.application.port.out;
 
+import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
 import com.tomazbr9.buildprice.catalog.domain.entity.Item;
 
 import java.util.List;
@@ -22,4 +23,11 @@ public interface ItemRepository {
     List<Item> saveAll(List<Item> items);
 
     List<Item> findAllById(Iterable<UUID> ids);
+
+    PageResult<Item> search(
+            UUID versionId,
+            String query,
+            int page,
+            int size
+    );
 }

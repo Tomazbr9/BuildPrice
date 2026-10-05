@@ -1,10 +1,11 @@
-package com.tomazbr9.buildprice.catalog.application.usecase;
+package com.tomazbr9.buildprice.catalog.application.usecase.unit;
 
 import com.tomazbr9.buildprice.catalog.application.command.CreateSinapiTableVersionCommand;
 import com.tomazbr9.buildprice.catalog.application.exception.SinapiTableVersionAlreadyExistsException;
 import com.tomazbr9.buildprice.catalog.application.exception.StateNotFoundException;
 import com.tomazbr9.buildprice.catalog.application.port.out.SinapiTableVersionRepository;
 import com.tomazbr9.buildprice.catalog.application.port.out.StateRepository;
+import com.tomazbr9.buildprice.catalog.application.usecase.CreateSinapiTableVersionUseCaseImpl;
 import com.tomazbr9.buildprice.catalog.domain.entity.State;
 import com.tomazbr9.buildprice.catalog.domain.enums.TaxReliefRegime;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.tomazbr9.buildprice.catalog.application.usecase;
+package com.tomazbr9.buildprice.catalog.application.usecase.unit;
 
 import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
 import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedCompositionData;
@@ -8,6 +8,7 @@ import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.SinapiImpor
 import com.tomazbr9.buildprice.catalog.application.exception.InvalidSinapiImportDataException;
 import com.tomazbr9.buildprice.catalog.application.exception.SinapiTableVersionAlreadyExistsException;
 import com.tomazbr9.buildprice.catalog.application.port.out.*;
+import com.tomazbr9.buildprice.catalog.application.usecase.ImportSinapiUseCaseImpl;
 import com.tomazbr9.buildprice.catalog.domain.entity.*;
 import com.tomazbr9.buildprice.catalog.domain.enums.TaxReliefRegime;
 import org.junit.jupiter.api.BeforeEach;

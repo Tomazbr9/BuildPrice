@@ -1,9 +1,10 @@
-package com.tomazbr9.buildprice.catalog.application.usecase;
+package com.tomazbr9.buildprice.catalog.application.usecase.unit;
 
-import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionResult;
 import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
-import com.tomazbr9.buildprice.catalog.application.port.out.CompositionRepository;
-import com.tomazbr9.buildprice.catalog.domain.entity.Composition;
+import com.tomazbr9.buildprice.catalog.application.dto.item.ItemResult;
+import com.tomazbr9.buildprice.catalog.application.port.out.ItemRepository;
+import com.tomazbr9.buildprice.catalog.application.usecase.SearchItemsUseCaseImpl;
+import com.tomazbr9.buildprice.catalog.domain.entity.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,40 +19,43 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SearchCompositionsUseCaseImplTest {
+class SearchItemsUseCaseImplTest {
 
     @Mock
-    private CompositionRepository compositionRepository;
+    private ItemRepository itemRepository;
 
-    private SearchCompositionsUseCaseImpl useCase;
+    private SearchItemsUseCaseImpl useCase;
 
     @BeforeEach
     void setUp() {
         useCase =
-                new SearchCompositionsUseCaseImpl(
-                        compositionRepository
+                new SearchItemsUseCaseImpl(
+                        itemRepository
                 );
     }
 
     @Test
-    void shouldSearchCompositions() {
+    void shouldSearchItems() {
 
         UUID versionId =
                 UUID.randomUUID();
 
-        Composition composition =
-                Composition.restore(
-                        UUID.randomUUID(),
+        UUID itemId =
+                UUID.randomUUID();
+
+        Item item =
+                Item.restore(
+                        itemId,
                         versionId,
-                        "104658",
-                        "Alvenaria de vedação com bloco cerâmico",
-                        "M2",
-                        new BigDecimal("176.23")
+                        "36178",
+                        "Bloco cerâmico",
+                        "UN",
+                        new BigDecimal("2.35")
                 );
 
-        PageResult<Composition> repositoryResult =
+        PageResult<Item> repositoryResult =
                 new PageResult<>(
-                        List.of(composition),
+                        List.of(item),
                         0,
                         20,
                         1,
@@ -59,30 +63,25 @@ class SearchCompositionsUseCaseImplTest {
                 );
 
         when(
-                compositionRepository.search(
+                itemRepository.search(
                         versionId,
-                        "alvenaria ceramico",
+                        "bloco ceramico",
                         0,
                         20
                 )
         ).thenReturn(repositoryResult);
 
-        PageResult<CompositionResult> result =
+        PageResult<ItemResult> result =
                 useCase.execute(
                         versionId,
-                        "  alvenaria ceramico  ",
+                        "  bloco ceramico  ",
                         0,
                         20
                 );
 
         assertEquals(
                 1,
-                result.totalElements()
-        );
-
-        assertEquals(
-                1,
-                result.totalPages()
+                result.content().size()
         );
 
         assertEquals(
@@ -97,99 +96,57 @@ class SearchCompositionsUseCaseImplTest {
 
         assertEquals(
                 1,
-                result.content().size()
+                result.totalElements()
         );
 
-        CompositionResult compositionResult =
+        assertEquals(
+                1,
+                result.totalPages()
+        );
+
+        ItemResult itemResult =
                 result.content().getFirst();
 
         assertEquals(
-                "104658",
-                compositionResult.code()
+                itemId,
+                itemResult.id()
         );
 
         assertEquals(
-                "Alvenaria de vedação com bloco cerâmico",
-                compositionResult.description()
+                versionId,
+                itemResult.sinapiTableVersionId()
         );
 
         assertEquals(
-                "M2",
-                compositionResult.unit()
+                "36178",
+                itemResult.code()
+        );
+
+        assertEquals(
+                "Bloco cerâmico",
+                itemResult.description()
+        );
+
+        assertEquals(
+                "UN",
+                itemResult.unit()
         );
 
         assertEquals(
                 0,
-                new BigDecimal("176.23")
+                new BigDecimal("2.35")
                         .compareTo(
-                                compositionResult.unitCost()
+                                itemResult.unitPrice()
                         )
         );
 
         verify(
-                compositionRepository
+                itemRepository
         ).search(
                 versionId,
-                "alvenaria ceramico",
+                "bloco ceramico",
                 0,
                 20
-        );
-    }
-
-    @Test
-    void shouldThrowWhenPageIsNegative() {
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () ->
-                        useCase.execute(
-                                UUID.randomUUID(),
-                                "alvenaria",
-                                -1,
-                                20
-                        )
-        );
-
-        verifyNoInteractions(
-                compositionRepository
-        );
-    }
-
-    @Test
-    void shouldThrowWhenPageSizeIsZero() {
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () ->
-                        useCase.execute(
-                                UUID.randomUUID(),
-                                "alvenaria",
-                                0,
-                                0
-                        )
-        );
-
-        verifyNoInteractions(
-                compositionRepository
-        );
-    }
-
-    @Test
-    void shouldThrowWhenPageSizeIsGreaterThanOneHundred() {
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () ->
-                        useCase.execute(
-                                UUID.randomUUID(),
-                                "alvenaria",
-                                0,
-                                101
-                        )
-        );
-
-        verifyNoInteractions(
-                compositionRepository
         );
     }
 
@@ -208,8 +165,64 @@ class SearchCompositionsUseCaseImplTest {
         );
 
         verifyNoInteractions(
-                compositionRepository
+                itemRepository
         );
     }
 
+    @Test
+    void shouldThrowWhenQueryIsBlank() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        useCase.execute(
+                                UUID.randomUUID(),
+                                "   ",
+                                0,
+                                20
+                        )
+        );
+
+        verifyNoInteractions(
+                itemRepository
+        );
+    }
+
+    @Test
+    void shouldThrowWhenPageIsNegative() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        useCase.execute(
+                                UUID.randomUUID(),
+                                "bloco",
+                                -1,
+                                20
+                        )
+        );
+
+        verifyNoInteractions(
+                itemRepository
+        );
+    }
+
+    @Test
+    void shouldThrowWhenPageSizeIsInvalid() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        useCase.execute(
+                                UUID.randomUUID(),
+                                "bloco",
+                                0,
+                                101
+                        )
+        );
+
+        verifyNoInteractions(
+                itemRepository
+        );
+    }
 }

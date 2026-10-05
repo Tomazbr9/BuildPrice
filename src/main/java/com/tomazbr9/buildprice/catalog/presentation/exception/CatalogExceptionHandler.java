@@ -5,6 +5,7 @@ import com.tomazbr9.buildprice.shared.exception.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -21,6 +22,24 @@ public class CatalogExceptionHandler {
             HttpServletRequest request
     ){
         return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ApiError> handleItemNotFound(
+            ItemNotFoundException exception,
+            HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ApiError> handleMissingServletRequestParameter(
+            MissingServletRequestParameterException exception,
+            HttpServletRequest request
+    ){
+        String message = "Parâmetro obrigatório ausente: " + exception.getParameterName();
+
+        return buildResponse(HttpStatus.BAD_REQUEST, message, request.getRequestURI());
     }
 
     @ExceptionHandler(CompositionNotFoundException.class)

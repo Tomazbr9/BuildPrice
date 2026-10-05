@@ -1,8 +1,9 @@
-package com.tomazbr9.buildprice.catalog.application.usecase;
+package com.tomazbr9.buildprice.catalog.application.usecase.unit;
 
 import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionResult;
 import com.tomazbr9.buildprice.catalog.application.exception.CompositionNotFoundException;
 import com.tomazbr9.buildprice.catalog.application.port.out.CompositionRepository;
+import com.tomazbr9.buildprice.catalog.application.usecase.GetCompositionByCodeUseCaseImpl;
 import com.tomazbr9.buildprice.catalog.domain.entity.Composition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,6 @@
 package com.tomazbr9.buildprice.catalog.infrastructure.persistence;
 
+import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
 import com.tomazbr9.buildprice.catalog.application.port.out.ItemRepository;
 import com.tomazbr9.buildprice.catalog.domain.entity.Item;
 import com.tomazbr9.buildprice.catalog.infrastructure.entity.ItemJpaEntity;
@@ -8,6 +9,9 @@ import com.tomazbr9.buildprice.catalog.infrastructure.mapper.ItemMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,5 +128,42 @@ public class ItemJpaRepositoryAdapter
                 .stream()
                 .map(ItemMapper::toEntity)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResult<Item> search(
+            UUID versionId,
+            String query,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable =
+                PageRequest.of(
+                        page,
+                        size
+                );
+
+        Page<ItemJpaEntity> result =
+                repository.search(
+                        versionId,
+                        query,
+                        pageable
+                );
+
+        List<Item> items =
+                result.getContent()
+                        .stream()
+                        .map(ItemMapper::toEntity)
+                        .toList();
+
+        return new PageResult<>(
+                items,
+                result.getNumber(),
+                result.getSize(),
+                result.getTotalElements(),
+                result.getTotalPages()
+        );
     }
 }

@@ -57,7 +57,7 @@
 
 ## 2.2 Requisitos Não Funcionais
 
-> **Como o sistema deve se comportar sob o capô.**
+> **Como o sistema deve se comportar**
 
 * **Escala inicial (MVP):** suportar dezenas de usuários simultâneos, sem necessidade de arquitetura de alta escala neste momento.
 * **Autenticação:** e-mail + senha, com fluxo de recuperação de senha por e-mail; sessão gerenciada via **JWT (JSON Web Token)**, utilizando arquitetura stateless.

@@ -1,4 +1,4 @@
-package com.tomazbr9.buildprice.catalog.application.usecase;
+package com.tomazbr9.buildprice.catalog.application.usecase.unit;
 
 import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionDetailResult;
 import com.tomazbr9.buildprice.catalog.application.exception.CompositionNotFoundException;
@@ -6,6 +6,7 @@ import com.tomazbr9.buildprice.catalog.application.port.out.CompositionChildRepo
 import com.tomazbr9.buildprice.catalog.application.port.out.CompositionItemRepository;
 import com.tomazbr9.buildprice.catalog.application.port.out.CompositionRepository;
 import com.tomazbr9.buildprice.catalog.application.port.out.ItemRepository;
+import com.tomazbr9.buildprice.catalog.application.usecase.GetCompositionDetailUseCaseImpl;
 import com.tomazbr9.buildprice.catalog.domain.entity.Composition;
 import com.tomazbr9.buildprice.catalog.domain.entity.CompositionChild;
 import com.tomazbr9.buildprice.catalog.domain.entity.CompositionItem;
