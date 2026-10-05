@@ -133,12 +133,9 @@ class GetCompositionDetailUseCaseImplTest {
         );
 
         when(
-                itemRepository
-                        .findById(
-                                itemId
-                        )
+                itemRepository.findAllById(any())
         ).thenReturn(
-                Optional.of(item)
+                List.of(item)
         );
 
         when(
@@ -151,12 +148,9 @@ class GetCompositionDetailUseCaseImplTest {
         );
 
         when(
-                compositionRepository
-                        .findById(
-                                childCompositionId
-                        )
+                compositionRepository.findAllById(any())
         ).thenReturn(
-                Optional.of(childComposition)
+                List.of(childComposition)
         );
 
         CompositionDetailResult result =
@@ -302,8 +296,8 @@ class GetCompositionDetailUseCaseImplTest {
 
         verify(
                 itemRepository
-        ).findById(
-                itemId
+        ).findAllById(
+                any()
         );
 
         verify(
@@ -314,8 +308,8 @@ class GetCompositionDetailUseCaseImplTest {
 
         verify(
                 compositionRepository
-        ).findById(
-                childCompositionId
+        ).findAllById(
+                any()
         );
     }
 
@@ -407,9 +401,9 @@ class GetCompositionDetailUseCaseImplTest {
         );
 
         when(
-                itemRepository.findById(itemId)
+                itemRepository.findAllById(any())
         ).thenReturn(
-                Optional.empty()
+                List.of()
         );
 
         assertThrows(

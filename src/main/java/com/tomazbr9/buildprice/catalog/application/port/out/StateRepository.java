@@ -2,6 +2,7 @@ package com.tomazbr9.buildprice.catalog.application.port.out;
 
 import com.tomazbr9.buildprice.catalog.domain.entity.State;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,4 +13,6 @@ public interface StateRepository {
     Optional<State> findByStateAbbreviation(String stateAbbreviation);
 
     State save(State state);
+
+    List<State> findAllById(Iterable<UUID> ids);
 }

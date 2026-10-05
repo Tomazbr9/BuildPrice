@@ -113,4 +113,16 @@ public class ItemJpaRepositoryAdapter
 
         return saved;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Item> findAllById(
+            Iterable<UUID> ids
+    ) {
+        return repository
+                .findAllById(ids)
+                .stream()
+                .map(ItemMapper::toEntity)
+                .toList();
+    }
 }

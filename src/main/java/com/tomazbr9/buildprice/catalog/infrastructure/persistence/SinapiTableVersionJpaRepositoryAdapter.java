@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -72,5 +73,18 @@ public class SinapiTableVersionJpaRepositoryAdapter
         entityManager.persist(entity);
 
         return SinapiTableVersionMapper.toEntity(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SinapiTableVersion> findAll() {
+
+        return repository
+                .findAll()
+                .stream()
+                .map(
+                        SinapiTableVersionMapper::toEntity
+                )
+                .toList();
     }
 }

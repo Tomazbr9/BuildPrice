@@ -28,4 +28,8 @@ public interface CompositionRepository {
             int page,
             int size
     );
+
+    List<Composition> findAllById(
+            Iterable<UUID> ids
+    );
 }

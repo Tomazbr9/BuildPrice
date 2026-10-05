@@ -153,4 +153,16 @@ public class CompositionJpaRepositoryAdapter
                 result.getTotalPages()
         );
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Composition> findAllById(
+            Iterable<UUID> ids
+    ) {
+        return repository
+                .findAllById(ids)
+                .stream()
+                .map(CompositionMapper::toEntity)
+                .toList();
+    }
 }

@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class GetCompositionDetailUseCaseImpl implements GetCompositionDetailUseCase {
@@ -90,36 +92,51 @@ public class GetCompositionDetailUseCaseImpl implements GetCompositionDetailUseC
                                 compositionId
                         );
 
-        return relations
-                .stream()
-                .map(this::toItemDetail)
-                .toList();
-    }
-
-    private CompositionItemDetailResult toItemDetail(
-            CompositionItem relation
-    ) {
-
-        Item item =
-                itemRepository
-                        .findById(
-                                relation.getItemId()
+        List<UUID> itemIds =
+                relations
+                        .stream()
+                        .map(
+                                CompositionItem::getItemId
                         )
-                        .orElseThrow(
-                                () -> new IllegalStateException(
-                                        "Insumo da composição não encontrado: "
-                                                + relation.getItemId()
+                        .toList();
+
+        Map<UUID, Item> itemsById =
+                itemRepository
+                        .findAllById(itemIds)
+                        .stream()
+                        .collect(
+                                Collectors.toMap(
+                                        Item::getId,
+                                        item -> item
                                 )
                         );
 
-        return new CompositionItemDetailResult(
-                item.getId(),
-                item.getCode(),
-                item.getDescription(),
-                item.getUnit(),
-                relation.getCoefficient(),
-                item.getUnitPrice()
-        );
+        return relations
+                .stream()
+                .map(relation -> {
+
+                    Item item =
+                            itemsById.get(
+                                    relation.getItemId()
+                            );
+
+                    if (item == null) {
+                        throw new IllegalStateException(
+                                "Insumo da composição não encontrado: "
+                                        + relation.getItemId()
+                        );
+                    }
+
+                    return new CompositionItemDetailResult(
+                            item.getId(),
+                            item.getCode(),
+                            item.getDescription(),
+                            item.getUnit(),
+                            relation.getCoefficient(),
+                            item.getUnitPrice()
+                    );
+                })
+                .toList();
     }
 
     private List<CompositionChildDetailResult> buildChildCompositions(
@@ -132,35 +149,51 @@ public class GetCompositionDetailUseCaseImpl implements GetCompositionDetailUseC
                                 compositionId
                         );
 
-        return relations
-                .stream()
-                .map(this::toChildDetail)
-                .toList();
-    }
-
-    private CompositionChildDetailResult toChildDetail(
-            CompositionChild relation
-    ) {
-
-        Composition child =
-                compositionRepository
-                        .findById(
-                                relation.getChildCompositionId()
+        List<UUID> childIds =
+                relations
+                        .stream()
+                        .map(
+                                CompositionChild::getChildCompositionId
                         )
-                        .orElseThrow(
-                                () -> new IllegalStateException(
-                                        "Subcomposição não encontrada: "
-                                                + relation.getChildCompositionId()
+                        .toList();
+
+        Map<UUID, Composition> compositionsById =
+                compositionRepository
+                        .findAllById(childIds)
+                        .stream()
+                        .collect(
+                                Collectors.toMap(
+                                        Composition::getId,
+                                        composition -> composition
                                 )
                         );
 
-        return new CompositionChildDetailResult(
-                child.getId(),
-                child.getCode(),
-                child.getDescription(),
-                child.getUnit(),
-                relation.getCoefficient(),
-                child.getUnitCost()
-        );
+        return relations
+                .stream()
+                .map(relation -> {
+
+                    Composition child =
+                            compositionsById.get(
+                                    relation.getChildCompositionId()
+                            );
+
+                    if (child == null) {
+                        throw new IllegalStateException(
+                                "Subcomposição não encontrada: "
+                                        + relation.getChildCompositionId()
+                        );
+                    }
+
+                    return new CompositionChildDetailResult(
+                            child.getId(),
+                            child.getCode(),
+                            child.getDescription(),
+                            child.getUnit(),
+                            relation.getCoefficient(),
+                            child.getUnitCost()
+                    );
+                })
+                .toList();
     }
+
 }

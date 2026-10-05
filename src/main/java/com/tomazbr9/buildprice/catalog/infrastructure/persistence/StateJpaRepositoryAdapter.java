@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,5 +58,17 @@ public class StateJpaRepositoryAdapter
         entityManager.persist(entity);
 
         return StateMapper.toEntity(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<State> findAllById(
+            Iterable<UUID> ids
+    ) {
+        return stateJpaRepository
+                .findAllById(ids)
+                .stream()
+                .map(StateMapper::toEntity)
+                .toList();
     }
 }

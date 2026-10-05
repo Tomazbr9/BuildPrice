@@ -20,4 +20,6 @@ public interface ItemRepository {
     Item save(Item item);
 
     List<Item> saveAll(List<Item> items);
+
+    List<Item> findAllById(Iterable<UUID> ids);
 }
