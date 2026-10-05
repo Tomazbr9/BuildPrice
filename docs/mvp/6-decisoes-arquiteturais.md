@@ -459,3 +459,9 @@ Avaliar particionamento das tabelas por:
 Caso o custo de armazenamento na VPS se torne relevante, avaliar o **arquivamento lógico** de versões muito antigas.
 
 > O arquivamento não deve resultar em exclusão física de dados necessários para reproduzir orçamentos históricos.
+
+### Busca de registros do catalogo
+
+Escolha do Full Text Search ao invés do Like para buscar por termos (Descrição)
+
+> Fazer consultas usando like não é tão preciso e nem tão rapido como usaR FTS
