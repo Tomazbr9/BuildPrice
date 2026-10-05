@@ -1,7 +1,10 @@
 package com.tomazbr9.buildprice.catalog.application.usecase;
 
 import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
-import com.tomazbr9.buildprice.catalog.application.dto.*;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedCompositionData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedCompositionItemData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedItemData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.SinapiImportData;
 import com.tomazbr9.buildprice.catalog.application.exception.InvalidSinapiImportDataException;
 import com.tomazbr9.buildprice.catalog.application.exception.SinapiTableVersionAlreadyExistsException;
 import com.tomazbr9.buildprice.catalog.application.port.out.*;

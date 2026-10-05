@@ -1,9 +1,11 @@
 package com.tomazbr9.buildprice.catalog.presentation.controller;
 
-import com.tomazbr9.buildprice.catalog.application.dto.CompositionResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionDetailResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionResult;
 import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
-import com.tomazbr9.buildprice.catalog.application.port.in.GetCompositionByCodeUseCase;
-import com.tomazbr9.buildprice.catalog.application.port.in.SearchCompositionsUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.get.GetCompositionByCodeUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.get.GetCompositionDetailUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.get.SearchCompositionsUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ public class CompositionController {
 
     private final GetCompositionByCodeUseCase getCompositionByCodeUseCase;
     private final SearchCompositionsUseCase searchCompositionsUseCase;
+    private final GetCompositionDetailUseCase getCompositionDetailUseCase;
 
     @GetMapping(
             "/versions/{versionId}/compositions/{code}"
@@ -49,6 +52,23 @@ public class CompositionController {
                         query,
                         page,
                         size
+                );
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(
+            "/versions/{versionId}/compositions/{code}/details"
+    )
+    public ResponseEntity<CompositionDetailResult> getDetails(
+            @PathVariable UUID versionId,
+            @PathVariable String code
+    ) {
+
+        CompositionDetailResult result =
+                getCompositionDetailUseCase.execute(
+                        versionId,
+                        code
                 );
 
         return ResponseEntity.ok(result);

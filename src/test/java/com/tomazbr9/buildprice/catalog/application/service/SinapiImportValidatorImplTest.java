@@ -1,10 +1,10 @@
 package com.tomazbr9.buildprice.catalog.application.service;
 
-import com.tomazbr9.buildprice.catalog.application.dto.ImportedCompositionChildData;
-import com.tomazbr9.buildprice.catalog.application.dto.ImportedCompositionData;
-import com.tomazbr9.buildprice.catalog.application.dto.ImportedCompositionItemData;
-import com.tomazbr9.buildprice.catalog.application.dto.ImportedItemData;
-import com.tomazbr9.buildprice.catalog.application.dto.SinapiImportData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedCompositionChildData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedCompositionData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedCompositionItemData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.ImportedItemData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.SinapiImportData;
 import com.tomazbr9.buildprice.catalog.application.exception.InvalidSinapiImportDataException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

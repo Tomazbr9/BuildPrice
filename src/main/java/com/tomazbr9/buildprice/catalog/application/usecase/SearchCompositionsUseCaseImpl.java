@@ -1,8 +1,8 @@
 package com.tomazbr9.buildprice.catalog.application.usecase;
 
-import com.tomazbr9.buildprice.catalog.application.dto.CompositionResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionResult;
 import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
-import com.tomazbr9.buildprice.catalog.application.port.in.SearchCompositionsUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.get.SearchCompositionsUseCase;
 import com.tomazbr9.buildprice.catalog.application.port.out.CompositionRepository;
 import com.tomazbr9.buildprice.catalog.domain.entity.Composition;
 import org.springframework.stereotype.Service;

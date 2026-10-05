@@ -1,6 +1,6 @@
 package com.tomazbr9.buildprice.catalog.infrastructure.importation;
 
-import com.tomazbr9.buildprice.catalog.application.dto.*;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.*;
 import com.tomazbr9.buildprice.catalog.application.exception.InvalidSinapiFileException;
 import com.tomazbr9.buildprice.catalog.application.port.out.SinapiFileParser;
 import com.tomazbr9.buildprice.catalog.domain.enums.TaxReliefRegime;

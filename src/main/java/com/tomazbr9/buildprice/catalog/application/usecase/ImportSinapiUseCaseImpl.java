@@ -1,10 +1,10 @@
 package com.tomazbr9.buildprice.catalog.application.usecase;
 
 import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
-import com.tomazbr9.buildprice.catalog.application.dto.*;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.SinapiImportData;
 import com.tomazbr9.buildprice.catalog.application.exception.SinapiTableVersionAlreadyExistsException;
 import com.tomazbr9.buildprice.catalog.application.exception.StateNotFoundException;
-import com.tomazbr9.buildprice.catalog.application.port.in.ImportSinapiUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.create.ImportSinapiUseCase;
 import com.tomazbr9.buildprice.catalog.application.port.out.*;
 import com.tomazbr9.buildprice.catalog.domain.entity.*;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package com.tomazbr9.buildprice.catalog.presentation.controller;
 
-import com.tomazbr9.buildprice.catalog.application.port.in.ImportSinapiUseCase;
-import com.tomazbr9.buildprice.identity.infrastructure.security.JwtAuthenticationFilter;
+import com.tomazbr9.buildprice.catalog.application.port.in.create.ImportSinapiUseCase;
 import com.tomazbr9.buildprice.identity.infrastructure.security.JwtService;
 import com.tomazbr9.buildprice.identity.infrastructure.security.SecurityConfiguration;
 import org.junit.jupiter.api.Test;

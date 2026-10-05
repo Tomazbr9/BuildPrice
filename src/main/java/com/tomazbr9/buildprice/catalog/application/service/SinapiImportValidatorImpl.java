@@ -1,6 +1,6 @@
 package com.tomazbr9.buildprice.catalog.application.service;
 
-import com.tomazbr9.buildprice.catalog.application.dto.*;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.*;
 import com.tomazbr9.buildprice.catalog.application.exception.InvalidSinapiImportDataException;
 import com.tomazbr9.buildprice.catalog.application.port.out.SinapiImportValidator;
 import org.springframework.stereotype.Component;

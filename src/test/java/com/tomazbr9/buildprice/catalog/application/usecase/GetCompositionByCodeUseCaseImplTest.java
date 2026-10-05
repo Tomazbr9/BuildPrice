@@ -1,6 +1,6 @@
 package com.tomazbr9.buildprice.catalog.application.usecase;
 
-import com.tomazbr9.buildprice.catalog.application.dto.CompositionResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionResult;
 import com.tomazbr9.buildprice.catalog.application.exception.CompositionNotFoundException;
 import com.tomazbr9.buildprice.catalog.application.port.out.CompositionRepository;
 import com.tomazbr9.buildprice.catalog.domain.entity.Composition;

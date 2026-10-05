@@ -1,7 +1,7 @@
 package com.tomazbr9.buildprice.catalog.presentation.controller;
 
 import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
-import com.tomazbr9.buildprice.catalog.application.port.in.ImportSinapiUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.create.ImportSinapiUseCase;
 import com.tomazbr9.buildprice.catalog.domain.enums.TaxReliefRegime;
 import com.tomazbr9.buildprice.catalog.presentation.exception.CatalogExceptionHandler;
 import com.tomazbr9.buildprice.identity.infrastructure.security.JwtAuthenticationFilter;

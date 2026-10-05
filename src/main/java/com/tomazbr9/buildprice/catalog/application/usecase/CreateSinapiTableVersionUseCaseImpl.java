@@ -3,7 +3,7 @@ package com.tomazbr9.buildprice.catalog.application.usecase;
 import com.tomazbr9.buildprice.catalog.application.command.CreateSinapiTableVersionCommand;
 import com.tomazbr9.buildprice.catalog.application.exception.SinapiTableVersionAlreadyExistsException;
 import com.tomazbr9.buildprice.catalog.application.exception.StateNotFoundException;
-import com.tomazbr9.buildprice.catalog.application.port.in.CreateSinapiTableVersionUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.create.CreateSinapiTableVersionUseCase;
 import com.tomazbr9.buildprice.catalog.application.port.out.SinapiTableVersionRepository;
 import com.tomazbr9.buildprice.catalog.application.port.out.StateRepository;
 import com.tomazbr9.buildprice.catalog.domain.entity.SinapiTableVersion;

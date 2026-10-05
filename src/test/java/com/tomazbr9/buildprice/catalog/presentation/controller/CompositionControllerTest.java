@@ -1,10 +1,14 @@
 package com.tomazbr9.buildprice.catalog.presentation.controller;
 
-import com.tomazbr9.buildprice.catalog.application.dto.CompositionResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionChildDetailResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionDetailResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionItemDetailResult;
+import com.tomazbr9.buildprice.catalog.application.dto.composition.CompositionResult;
 import com.tomazbr9.buildprice.catalog.application.dto.PageResult;
 import com.tomazbr9.buildprice.catalog.application.exception.CompositionNotFoundException;
-import com.tomazbr9.buildprice.catalog.application.port.in.GetCompositionByCodeUseCase;
-import com.tomazbr9.buildprice.catalog.application.port.in.SearchCompositionsUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.get.GetCompositionByCodeUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.get.GetCompositionDetailUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.get.SearchCompositionsUseCase;
 import com.tomazbr9.buildprice.catalog.presentation.exception.CatalogExceptionHandler;
 import com.tomazbr9.buildprice.identity.infrastructure.security.JwtAuthenticationFilter;
 import com.tomazbr9.buildprice.identity.infrastructure.security.JwtService;
@@ -38,6 +42,9 @@ class CompositionControllerTest {
 
     @MockitoBean
     private SearchCompositionsUseCase searchCompositionsUseCase;
+
+    @MockitoBean
+    private GetCompositionDetailUseCase getCompositionDetailUseCase;
 
     @MockitoBean
     private JwtService jwtService;
@@ -408,6 +415,188 @@ class CompositionControllerTest {
                                 .value(
                                         "Tamanho da página deve estar entre 1 e 100"
                                 )
+                );
+    }
+
+    @Test
+    void shouldReturnCompositionDetails() throws Exception {
+
+        UUID versionId =
+                UUID.randomUUID();
+
+        UUID compositionId =
+                UUID.randomUUID();
+
+        UUID itemId =
+                UUID.randomUUID();
+
+        UUID childCompositionId =
+                UUID.randomUUID();
+
+        CompositionItemDetailResult item =
+                new CompositionItemDetailResult(
+                        itemId,
+                        "36178",
+                        "Insumo teste",
+                        "UN",
+                        new BigDecimal("6.4375"),
+                        new BigDecimal("2.35")
+                );
+
+        CompositionChildDetailResult child =
+                new CompositionChildDetailResult(
+                        childCompositionId,
+                        "88316",
+                        "Subcomposição teste",
+                        "H",
+                        new BigDecimal("1.279"),
+                        new BigDecimal("24.50")
+                );
+
+        CompositionDetailResult result =
+                new CompositionDetailResult(
+                        compositionId,
+                        versionId,
+                        "104658",
+                        "Alvenaria de vedação com bloco cerâmico",
+                        "M2",
+                        new BigDecimal("176.23"),
+                        List.of(item),
+                        List.of(child)
+                );
+
+        when(
+                getCompositionDetailUseCase.execute(
+                        versionId,
+                        "104658"
+                )
+        ).thenReturn(result);
+
+        mockMvc.perform(
+                        get(
+                                "/api/v1/catalog/versions/{versionId}/compositions/{code}/details",
+                                versionId,
+                                "104658"
+                        )
+                )
+                .andExpect(
+                        status().isOk()
+                )
+                .andExpect(
+                        jsonPath("$.id")
+                                .value(
+                                        compositionId.toString()
+                                )
+                )
+                .andExpect(
+                        jsonPath("$.sinapiTableVersionId")
+                                .value(
+                                        versionId.toString()
+                                )
+                )
+                .andExpect(
+                        jsonPath("$.code")
+                                .value("104658")
+                )
+                .andExpect(
+                        jsonPath("$.description")
+                                .value(
+                                        "Alvenaria de vedação com bloco cerâmico"
+                                )
+                )
+                .andExpect(
+                        jsonPath("$.unit")
+                                .value("M2")
+                )
+                .andExpect(
+                        jsonPath("$.unitCost")
+                                .value(176.23)
+                )
+                .andExpect(
+                        jsonPath("$.items")
+                                .isArray()
+                )
+                .andExpect(
+                        jsonPath("$.items.length()")
+                                .value(1)
+                )
+                .andExpect(
+                        jsonPath("$.items[0].itemId")
+                                .value(
+                                        itemId.toString()
+                                )
+                )
+                .andExpect(
+                        jsonPath("$.items[0].code")
+                                .value("36178")
+                )
+                .andExpect(
+                        jsonPath("$.items[0].coefficient")
+                                .value(6.4375)
+                )
+                .andExpect(
+                        jsonPath("$.items[0].unitPrice")
+                                .value(2.35)
+                )
+                .andExpect(
+                        jsonPath("$.childCompositions")
+                                .isArray()
+                )
+                .andExpect(
+                        jsonPath("$.childCompositions.length()")
+                                .value(1)
+                )
+                .andExpect(
+                        jsonPath("$.childCompositions[0].compositionId")
+                                .value(
+                                        childCompositionId.toString()
+                                )
+                )
+                .andExpect(
+                        jsonPath("$.childCompositions[0].code")
+                                .value("88316")
+                )
+                .andExpect(
+                        jsonPath("$.childCompositions[0].coefficient")
+                                .value(1.279)
+                )
+                .andExpect(
+                        jsonPath("$.childCompositions[0].unitCost")
+                                .value(24.50)
+                );
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenCompositionDetailsDoNotExist()
+            throws Exception {
+
+        UUID versionId =
+                UUID.randomUUID();
+
+        when(
+                getCompositionDetailUseCase.execute(
+                        versionId,
+                        "999999"
+                )
+        ).thenThrow(
+                new CompositionNotFoundException(
+                        "999999"
+                )
+        );
+
+        mockMvc.perform(
+                        get(
+                                "/api/v1/catalog/versions/{versionId}/compositions/{code}/details",
+                                versionId,
+                                "999999"
+                        )
+                )
+                .andExpect(
+                        status().isNotFound()
+                )
+                .andExpect(
+                        jsonPath("$.status")
+                                .value(404)
                 );
     }
 }

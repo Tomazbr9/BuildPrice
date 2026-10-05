@@ -1,4 +1,4 @@
-package com.tomazbr9.buildprice.catalog.application.dto;
+package com.tomazbr9.buildprice.catalog.application.dto.composition;
 
 import java.util.UUID;
 

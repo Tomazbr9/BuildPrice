@@ -1,4 +1,4 @@
-package com.tomazbr9.buildprice.catalog.application.port.in;
+package com.tomazbr9.buildprice.catalog.application.port.in.create;
 
 import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
 

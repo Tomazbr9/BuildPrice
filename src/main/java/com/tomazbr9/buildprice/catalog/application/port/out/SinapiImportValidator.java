@@ -1,6 +1,6 @@
 package com.tomazbr9.buildprice.catalog.application.port.out;
 
-import com.tomazbr9.buildprice.catalog.application.dto.SinapiImportData;
+import com.tomazbr9.buildprice.catalog.application.dto.import_sinapi.SinapiImportData;
 
 public interface SinapiImportValidator {
 

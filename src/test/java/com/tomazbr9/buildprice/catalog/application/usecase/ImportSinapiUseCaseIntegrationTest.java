@@ -1,7 +1,7 @@
 package com.tomazbr9.buildprice.catalog.application.usecase;
 
 import com.tomazbr9.buildprice.catalog.application.command.ImportSinapiCommand;
-import com.tomazbr9.buildprice.catalog.application.port.in.ImportSinapiUseCase;
+import com.tomazbr9.buildprice.catalog.application.port.in.create.ImportSinapiUseCase;
 import com.tomazbr9.buildprice.catalog.application.port.out.*;
 import com.tomazbr9.buildprice.catalog.domain.entity.State;
 import com.tomazbr9.buildprice.catalog.domain.enums.TaxReliefRegime;
