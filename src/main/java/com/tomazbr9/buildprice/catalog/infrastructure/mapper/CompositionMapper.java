@@ -24,7 +24,7 @@ public final class CompositionMapper {
                 .build();
     }
 
-    public static Composition toEntity(CompositionJpaEntity composition){
+    public static Composition toDomain(CompositionJpaEntity composition){
         return Composition.restore(
                 composition.getId(),
                 composition.getVersion().getId(),

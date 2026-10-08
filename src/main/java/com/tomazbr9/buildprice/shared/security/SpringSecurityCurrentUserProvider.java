@@ -1,10 +1,8 @@
-package com.tomazbr9.buildprice.clients.infrastructure.security;
+package com.tomazbr9.buildprice.shared.security;
 
-import com.tomazbr9.buildprice.clients.application.port.out.CurrentUserProvider;
 import com.tomazbr9.buildprice.identity.infrastructure.security.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

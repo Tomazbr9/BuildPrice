@@ -24,7 +24,7 @@ public final class ItemMapper {
                 .build();
     }
 
-    public static Item toEntity(ItemJpaEntity item){
+    public static Item toDomain(ItemJpaEntity item){
         return Item.restore(
                 item.getId(),
                 item.getVersion().getId(),

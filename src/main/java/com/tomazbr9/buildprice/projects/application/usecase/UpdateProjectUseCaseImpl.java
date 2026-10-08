@@ -1,14 +1,13 @@
 package com.tomazbr9.buildprice.projects.application.usecase;
 
-import com.tomazbr9.buildprice.projects.application.command.CreateProjectCommand;
+import com.tomazbr9.buildprice.projects.application.command.UpdateProjectCommand;
 import com.tomazbr9.buildprice.projects.application.dto.ProjectResult;
 import com.tomazbr9.buildprice.projects.application.exception.InvalidProjectClientException;
+import com.tomazbr9.buildprice.projects.application.exception.ProjectNotFoundException;
 import com.tomazbr9.buildprice.projects.application.exception.ProjectStateNotFoundException;
 import com.tomazbr9.buildprice.projects.application.mapper.ProjectResultMapper;
-import com.tomazbr9.buildprice.projects.application.port.in.CreateProjectUseCase;
-import com.tomazbr9.buildprice.projects.application.port.out.ClientGateway;
-import com.tomazbr9.buildprice.projects.application.port.out.ProjectRepository;
-import com.tomazbr9.buildprice.projects.application.port.out.StateCatalogGateway;
+import com.tomazbr9.buildprice.projects.application.port.in.UpdateProjectUseCase;
+import com.tomazbr9.buildprice.projects.application.port.out.*;
 import com.tomazbr9.buildprice.projects.domain.entity.Project;
 import com.tomazbr9.buildprice.shared.security.CurrentUserProvider;
 import org.springframework.stereotype.Service;
@@ -17,15 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
-public class CreateProjectUseCaseImpl
-        implements CreateProjectUseCase {
+public class UpdateProjectUseCaseImpl
+        implements UpdateProjectUseCase {
 
     private final ProjectRepository projectRepository;
     private final ClientGateway clientGateway;
     private final StateCatalogGateway stateCatalogGateway;
     private final CurrentUserProvider currentUserProvider;
 
-    public CreateProjectUseCaseImpl(
+    public UpdateProjectUseCaseImpl(
             ProjectRepository projectRepository,
             ClientGateway clientGateway,
             StateCatalogGateway stateCatalogGateway,
@@ -40,11 +39,23 @@ public class CreateProjectUseCaseImpl
     @Override
     @Transactional
     public ProjectResult execute(
-            CreateProjectCommand command
+            UUID projectId,
+            UpdateProjectCommand command
     ) {
 
         UUID userId =
                 currentUserProvider.getCurrentUserId();
+
+        Project project =
+                projectRepository
+                        .findById(projectId)
+                        .filter(found ->
+                                found.getUserId()
+                                        .equals(userId)
+                        )
+                        .orElseThrow(
+                                ProjectNotFoundException::new
+                        );
 
         if (command.clientId() != null
                 && !clientGateway.existsByIdAndUserId(
@@ -61,20 +72,17 @@ public class CreateProjectUseCaseImpl
             throw new ProjectStateNotFoundException();
         }
 
-        Project project =
-                Project.create(
-                        userId,
-                        command.clientId(),
-                        command.name(),
-                        command.stateId(),
-                        command.taxReliefRegime(),
-                        command.bdiPercentage()
-                );
+        project.update(
+                command.clientId(),
+                command.name(),
+                command.stateId(),
+                command.taxReliefRegime(),
+                command.bdiPercentage()
+        );
 
         Project saved =
                 projectRepository.save(project);
 
         return ProjectResultMapper.toResult(saved);
-
     }
 }

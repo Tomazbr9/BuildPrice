@@ -35,7 +35,7 @@ public class ItemJpaRepositoryAdapter
     public Optional<Item> findById(UUID id) {
         return repository
                 .findById(id)
-                .map(ItemMapper::toEntity);
+                .map(ItemMapper::toDomain);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ItemJpaRepositoryAdapter
         return repository
                 .findByVersion_Id(sinapiTableVersionId)
                 .stream()
-                .map(ItemMapper::toEntity)
+                .map(ItemMapper::toDomain)
                 .toList();
     }
 
@@ -61,7 +61,7 @@ public class ItemJpaRepositoryAdapter
                         sinapiTableVersionId,
                         code
                 )
-                .map(ItemMapper::toEntity);
+                .map(ItemMapper::toDomain);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ItemJpaRepositoryAdapter
 
         entityManager.persist(entity);
 
-        return ItemMapper.toEntity(entity);
+        return ItemMapper.toDomain(entity);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class ItemJpaRepositoryAdapter
             entityManager.persist(entity);
 
             saved.add(
-                    ItemMapper.toEntity(entity)
+                    ItemMapper.toDomain(entity)
             );
         }
 
@@ -126,7 +126,7 @@ public class ItemJpaRepositoryAdapter
         return repository
                 .findAllById(ids)
                 .stream()
-                .map(ItemMapper::toEntity)
+                .map(ItemMapper::toDomain)
                 .toList();
     }
 
@@ -155,7 +155,7 @@ public class ItemJpaRepositoryAdapter
         List<Item> items =
                 result.getContent()
                         .stream()
-                        .map(ItemMapper::toEntity)
+                        .map(ItemMapper::toDomain)
                         .toList();
 
         return new PageResult<>(

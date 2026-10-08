@@ -1,6 +1,8 @@
-package com.tomazbr9.buildprice.clients.presentation.exception;
+package com.tomazbr9.buildprice.projects.presentation.exception;
 
-import com.tomazbr9.buildprice.clients.application.exception.ClientNotFoundException;
+import com.tomazbr9.buildprice.projects.application.exception.InvalidProjectClientException;
+import com.tomazbr9.buildprice.projects.application.exception.ProjectNotFoundException;
+import com.tomazbr9.buildprice.projects.application.exception.ProjectStateNotFoundException;
 import com.tomazbr9.buildprice.shared.exception.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -11,14 +13,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
-public class ClientExceptionHandler {
+public class ProjectExceptionHandler {
 
-    @ExceptionHandler(ClientNotFoundException.class)
-    public ResponseEntity<ApiError> handleClientNotFound(
-            ClientNotFoundException exception,
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<ApiError> handleProjectNotFound(
+            ProjectNotFoundException exception,
             HttpServletRequest request
     ){
         return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler({
+            InvalidProjectClientException.class,
+            ProjectStateNotFoundException.class
+    })
+    public ResponseEntity<ApiError> handleInvalidReference(
+            RuntimeException exception,
+            HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI());
     }
 
     private ResponseEntity<ApiError> buildResponse(
@@ -39,4 +52,6 @@ public class ClientExceptionHandler {
                 .status(status)
                 .body(error);
     }
+
+
 }

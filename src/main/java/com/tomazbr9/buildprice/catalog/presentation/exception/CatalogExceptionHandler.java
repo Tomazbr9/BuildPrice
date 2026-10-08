@@ -32,16 +32,6 @@ public class CatalogExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
     }
 
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ApiError> handleMissingServletRequestParameter(
-            MissingServletRequestParameterException exception,
-            HttpServletRequest request
-    ){
-        String message = "Parâmetro obrigatório ausente: " + exception.getParameterName();
-
-        return buildResponse(HttpStatus.BAD_REQUEST, message, request.getRequestURI());
-    }
-
     @ExceptionHandler(CompositionNotFoundException.class)
     public ResponseEntity<ApiError> handleCompositionNotFound(
             CompositionNotFoundException exception,
@@ -72,21 +62,6 @@ public class CatalogExceptionHandler {
             HttpServletRequest request
     ){
         return buildResponse(HttpStatus.CONFLICT, exception.getMessage(), request.getRequestURI());
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException exception, HttpServletRequest request){
-        return buildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI());
-    }
-
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ApiError> handleMethodArgumentTypeMismatch(
-            MethodArgumentTypeMismatchException exception,
-            HttpServletRequest request
-    ){
-
-        return buildResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI());
-
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)

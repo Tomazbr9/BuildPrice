@@ -1,4 +1,4 @@
-package com.tomazbr9.buildprice.clients.application.port.out;
+package com.tomazbr9.buildprice.shared.security;
 
 import java.util.UUID;
 

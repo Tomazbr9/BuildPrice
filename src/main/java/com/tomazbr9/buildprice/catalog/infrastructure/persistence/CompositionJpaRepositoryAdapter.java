@@ -35,7 +35,7 @@ public class CompositionJpaRepositoryAdapter
     public Optional<Composition> findById(UUID id) {
         return repository
                 .findById(id)
-                .map(CompositionMapper::toEntity);
+                .map(CompositionMapper::toDomain);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CompositionJpaRepositoryAdapter
         return repository
                 .findByVersion_Id(sinapiTableVersionId)
                 .stream()
-                .map(CompositionMapper::toEntity)
+                .map(CompositionMapper::toDomain)
                 .toList();
     }
 
@@ -61,7 +61,7 @@ public class CompositionJpaRepositoryAdapter
                         sinapiTableVersionId,
                         code
                 )
-                .map(CompositionMapper::toEntity);
+                .map(CompositionMapper::toDomain);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class CompositionJpaRepositoryAdapter
 
         entityManager.persist(entity);
 
-        return CompositionMapper.toEntity(entity);
+        return CompositionMapper.toDomain(entity);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class CompositionJpaRepositoryAdapter
             entityManager.persist(entity);
 
             saved.add(
-                    CompositionMapper.toEntity(entity)
+                    CompositionMapper.toDomain(entity)
             );
         }
 
@@ -142,7 +142,7 @@ public class CompositionJpaRepositoryAdapter
         List<Composition> compositions =
                 result.getContent()
                         .stream()
-                        .map(CompositionMapper::toEntity)
+                        .map(CompositionMapper::toDomain)
                         .toList();
 
         return new PageResult<>(
@@ -162,7 +162,7 @@ public class CompositionJpaRepositoryAdapter
         return repository
                 .findAllById(ids)
                 .stream()
-                .map(CompositionMapper::toEntity)
+                .map(CompositionMapper::toDomain)
                 .toList();
     }
 }

@@ -4,8 +4,8 @@ import com.tomazbr9.buildprice.clients.application.dto.ClientResult;
 import com.tomazbr9.buildprice.clients.application.exception.ClientNotFoundException;
 import com.tomazbr9.buildprice.clients.application.port.in.GetClientByIdUseCase;
 import com.tomazbr9.buildprice.clients.application.port.out.ClientRepository;
-import com.tomazbr9.buildprice.clients.application.port.out.CurrentUserProvider;
 import com.tomazbr9.buildprice.clients.domain.entity.Client;
+import com.tomazbr9.buildprice.shared.security.CurrentUserProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
