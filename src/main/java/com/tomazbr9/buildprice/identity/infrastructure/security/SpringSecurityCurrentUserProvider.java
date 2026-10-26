@@ -1,6 +1,6 @@
-package com.tomazbr9.buildprice.shared.security;
+package com.tomazbr9.buildprice.identity.infrastructure.security;
 
-import com.tomazbr9.buildprice.identity.infrastructure.security.UserDetailsImpl;
+import com.tomazbr9.buildprice.shared.security.CurrentUserProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
